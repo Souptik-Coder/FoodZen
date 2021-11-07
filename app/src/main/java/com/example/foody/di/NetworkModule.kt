@@ -1,8 +1,10 @@
 package com.example.foody.di
 
 import android.content.Context
-import com.example.foody.data.DataStoreRepository
+import androidx.room.Room
+import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.data.FoodRecipesApi
+import com.example.foody.data.database.AppDatabase
 import com.example.foody.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -34,4 +36,12 @@ object NetworkModule {
     @Singleton
     fun provideDataStore(@ApplicationContext context: Context): DataStoreRepository =
         DataStoreRepository(context)
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "Recipes Database"
+        ).build()
 }

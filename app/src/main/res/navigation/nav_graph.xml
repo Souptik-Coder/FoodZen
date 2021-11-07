@@ -8,33 +8,29 @@
     <fragment
         android:id="@+id/recipesFragment"
         android:name="com.example.foody.ui.fragments.recipes.RecipesFragment"
-        android:label="fragment_recipes"
+        android:label="Recipes"
         tools:layout="@layout/fragment_recipes">
         <action
             android:id="@+id/action_recipesFragment_to_recipesBottomSheet"
             app:destination="@id/recipesBottomSheet" />
-        <action
-            android:id="@+id/action_recipesFragment_to_detailsActivity"
-            app:destination="@id/detailsActivity" />
         <deepLink
             android:id="@+id/deepLink"
             app:action="@string/ACTION_SHOW_RECIPES"
             app:uri="https://smart-liv.com/FoodZen/recipes/{id}" />
         <argument
             android:name="id"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/favouriteRecipesFragment"
         android:name="com.example.foody.ui.fragments.favourite.FavouriteRecipesFragment"
-        android:label="fragment_favourite_recipes"
+        android:label="Favourite"
         tools:layout="@layout/fragment_favourite_recipes" />
     <fragment
-        android:id="@+id/foodJokeFragment"
-        android:name="com.example.foody.ui.fragments.foodjoke.FoodJokeFragment"
-        android:label="fragment_food_joke"
-        tools:layout="@layout/fragment_food_joke" />
+        android:id="@+id/RecipeCardFragment"
+        android:name="com.example.foody.ui.fragments.recipecard.RecipeCardFragment"
+        android:label="Recipe Card" />
     <dialog
         android:id="@+id/recipesBottomSheet"
         android:name="com.example.foody.ui.fragments.recipes.bottomSheet.RecipesBottomSheet"
@@ -49,7 +45,10 @@
         android:name="com.example.foody.ui.DetailsActivity"
         android:label="DetailsActivity" >
         <argument
-            android:name="result"
-            app:argType="com.example.foody.models.Result" />
+            android:name="recipe"
+            app:argType="com.example.foody.models.Recipe" />
     </activity>
+    <action
+        android:id="@+id/action_global_detailsActivity"
+        app:destination="@id/detailsActivity" />
 </navigation>

@@ -7,7 +7,7 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.example.foody.R
 import com.example.foody.databinding.FragmentInstructionsBinding
-import com.example.foody.models.Result
+import com.example.foody.models.Recipe
 
 class InstructionsFragment : Fragment(R.layout.fragment_instructions) {
 
@@ -15,13 +15,14 @@ class InstructionsFragment : Fragment(R.layout.fragment_instructions) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentInstructionsBinding.bind(view)
-        val result: Result? = arguments?.getParcelable("resultBundle")
+        val recipe: Recipe? = arguments?.getParcelable("resultBundle")
         binding.webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 binding.progressBar.visibility = View.GONE
             }
+
         }
-        binding.webView.loadUrl(result!!.sourceUrl)
+        binding.webView.loadUrl(recipe!!.sourceUrl)
     }
 }

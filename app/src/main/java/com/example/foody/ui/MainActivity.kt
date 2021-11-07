@@ -2,14 +2,14 @@ package com.example.foody.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.foody.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.foody.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,14 +22,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.findNavController()
 
-        findViewById<BottomNavigationView>(R.id.bottom_nav).setupWithNavController(navController)
+        //declare top level destinations
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.recipesFragment,
+                R.id.favouriteRecipesFragment,
+                R.id.RecipeCardFragment
+            )
+        )
 
-//        binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav.setupWithNavController(navController)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 }

@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_star"
         android:title="@string/favourite" />
     <item
-        android:id="@+id/foodJokeFragment"
-        android:icon="@drawable/ic_emoji_emotions"
-        android:title="@string/food_joke" />
+        android:id="@+id/RecipeCardFragment"
+        android:icon="@drawable/ic_card"
+        android:title="Recipe Card" />
 </menu>

@@ -10,7 +10,7 @@ import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.foody.R
-import com.example.foody.models.Result
+import com.example.foody.models.Recipe
 import com.example.foody.ui.fragments.recipes.RecipesFragmentDirections
 import com.google.android.material.card.MaterialCardView
 
@@ -29,10 +29,10 @@ class RecipesRowLayoutBinding {
 
         @BindingAdapter("recipeOnClick")
         @JvmStatic
-        fun setOnClickListener(materialCardView: MaterialCardView, result: Result) {
+        fun setOnClickListener(materialCardView: MaterialCardView, recipe: Recipe) {
             materialCardView.setOnClickListener {
                 val action =
-                    RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
+                    RecipesFragmentDirections.actionGlobalDetailsActivity(recipe)
                 materialCardView.findNavController().navigate(action)
             }
         }
@@ -57,13 +57,6 @@ class RecipesRowLayoutBinding {
                     )
                     is TextView -> {
                         view.setTextColor(
-                            ContextCompat.getColor(
-                                view.context,
-                                R.color.green
-                            )
-                        )
-
-                        view.compoundDrawablesRelative[0]?.setTint(
                             ContextCompat.getColor(
                                 view.context,
                                 R.color.green

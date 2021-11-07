@@ -2,20 +2,18 @@ package com.example.foody.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foody.databinding.ReceipesRowLayoutBinding
-import com.example.foody.models.FoodRecipes
-import com.example.foody.models.Result
-import com.example.foody.util.RecipesDiffUtil
+import com.example.foody.models.RecipeList
+import com.example.foody.models.Recipe
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
-    private var recipes = emptyList<Result>()
+    private var recipes = emptyList<Recipe>()
 
     class ViewHolder(private val binding: ReceipesRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: Result) {
-            binding.result = result
+        fun bind(recipe: Recipe) {
+            binding.result = recipe
             binding.executePendingBindings()
         }
     }
@@ -37,10 +35,11 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = recipes.size
 
-    fun setData(newData: FoodRecipes) {
-        recipes = newData.results
-        val recipesDiffUtil = RecipesDiffUtil(newData.results, recipes)
-        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
-        diffUtilResult.dispatchUpdatesTo(this)
+    fun setData(newData: RecipeList) {
+        recipes = newData.recipeList
+//        val recipesDiffUtil = RecipesDiffUtil(newData.results, recipes)
+//        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
+//        diffUtilResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 }

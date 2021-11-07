@@ -43,8 +43,6 @@
     <string name="tree_nut">Tree Nut</string>
     <string name="wheat">Wheat</string>
     <string name="filter_recipes_by">Filter recipes by</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="popular">Popular</string>
     <string name="gluten_free">Gluten Free</string>
     <string name="vegetarian">Vegetarian</string>
@@ -54,4 +52,13 @@
     <string name="no_filter">No Filter</string>
     <string name="ACTION_SHOW_RECIPES">Show Recipes Action</string>
     <string name="share">Share</string>
+    <string name="mark_as_favourite">Mark as favourite</string>
+    <string name="generate">Generate</string>
+    <string name="share_card_in_app">Share card in app</string>
+    <string name="generate_beautiful_recipe_card_and_share_with_your_friends">Generate beautiful Recipe Card and share with your friends</string>
+    <string name="no_internet_showing_cached_data">No Internet Connections.Showing cached data if available</string>
+    <string name="server_error_occurred">Server error occurred</string>
+    <string name="no_recipe_found">No recipe found with the given filters\nRemove some filters and try again</string>
+    <string name="recipe_card_not_found">No recipe card found for this id</string>
+    <string name="link_share_message">Take a look at \"%s\" in FoodZen app\n\n%s\n\n*Link only work if FoodZen app is installed in your device</string>
 </resources>

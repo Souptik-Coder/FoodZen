@@ -3,8 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+       android:id="@+id/favourite"
+        android:iconTint="@color/white"
+        android:icon="@drawable/ic_star"
+        android:title="@string/mark_as_favourite"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share"
+        android:iconTint="@color/white"
         android:title="@string/share"
         app:showAsAction="ifRoom" />
+
 </menu>

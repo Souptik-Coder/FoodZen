@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foody.R
 import com.example.foody.adapters.IngredientsAdapter
 import com.example.foody.databinding.FragmentIngredientsBinding
-import com.example.foody.models.Result
+import com.example.foody.models.Recipe
 
 class IngredientsFragment : Fragment(R.layout.fragment_ingredients) {
 
@@ -17,12 +17,12 @@ class IngredientsFragment : Fragment(R.layout.fragment_ingredients) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentIngredientsBinding.bind(view)
-        val result: Result? = arguments?.getParcelable("resultBundle")
+        val recipe: Recipe? = arguments?.getParcelable("resultBundle")
 
         val adapter = IngredientsAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-        adapter.setData(result!!.extendedIngredients)
+        adapter.setData(recipe!!.extendedIngredients)
 
     }
 }

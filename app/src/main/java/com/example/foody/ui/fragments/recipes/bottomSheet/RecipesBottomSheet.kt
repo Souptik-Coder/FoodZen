@@ -1,13 +1,14 @@
 package com.example.foody.ui.fragments.recipes.bottomSheet
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import com.example.foody.R
-import com.example.foody.data.DataStoreRepository
+import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.databinding.RecipesBottomSheetBinding
 import com.example.foody.util.Constants.DEFAULT_CUISINE
 import com.example.foody.util.Constants.DEFAULT_DIET
@@ -37,20 +38,22 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val binding = RecipesBottomSheetBinding.bind(view)
 
-         var recipeFilterParameters = DataStoreRepository.RecipeFilterParameters(
+        var recipeFilterParameters = DataStoreRepository.RecipeFilterParameters(
             DEFAULT_MEAL_TYPE, 0,
             DEFAULT_DIET, 0,
             DEFAULT_CUISINE, 0,
             DEFAULT_INTOLERANCE, 0
         )
 
-        recipesViewModel.readRecipeFilterParameter.asLiveData().observe(viewLifecycleOwner) { value ->
-            recipeFilterParameters = value
-            updateChip(value.selectedMealTypeId, binding.mealTypeChipGroup)
-            updateChip(value.selectedDietTypeId, binding.dietTypeChipGroup)
-            updateChip(value.selectedCuisineTypeId, binding.cuisineChipGroup)
-            updateChip(value.selectedIntoleranceTypeId, binding.intolerancesChipGroup)
-        }
+        recipesViewModel.readRecipeFilterParameter.asLiveData()
+            .observe(viewLifecycleOwner) { value ->
+                Log.e("RecipesBottomSheet", "Flow Collected")
+                recipeFilterParameters = value
+                updateChip(value.selectedMealTypeId, binding.mealTypeChipGroup)
+                updateChip(value.selectedDietTypeId, binding.dietTypeChipGroup)
+                updateChip(value.selectedCuisineTypeId, binding.cuisineChipGroup)
+                updateChip(value.selectedIntoleranceTypeId, binding.intolerancesChipGroup)
+            }
 
         binding.mealTypeChipGroup.setOnCheckedChangeListener { group, checkedId ->
             val chip = group.findViewById<Chip>(checkedId)

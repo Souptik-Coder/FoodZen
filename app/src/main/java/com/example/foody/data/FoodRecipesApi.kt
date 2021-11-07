@@ -1,7 +1,8 @@
 package com.example.foody.data
 
-import com.example.foody.models.FoodRecipes
-import com.example.foody.models.Result
+import com.example.foody.models.RecipeList
+import com.example.foody.models.Recipe
+import com.example.foody.models.RecipeCard
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,11 +14,17 @@ interface FoodRecipesApi {
     @GET("recipes/complexSearch")
     suspend fun getRecipes(
         @QueryMap queries: Map<String, String>
-    ): Response<FoodRecipes>
+    ): Response<RecipeList>
 
     @GET("recipes/{id}/information")
     suspend fun getRecipesById(
         @Path("id") id: Int,
         @Query("apiKey") apiKey:String
-    ): Response<Result>
+    ): Response<Recipe>
+
+    @GET("recipes/{id}/card")
+    suspend fun getRecipeCard(
+        @Path("id") id:Int,
+        @Query("apiKey") apiKey:String
+    ):Response<RecipeCard>
 }

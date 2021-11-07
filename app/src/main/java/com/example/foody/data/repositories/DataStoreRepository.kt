@@ -1,6 +1,7 @@
-package com.example.foody.data
+package com.example.foody.data.repositories
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
@@ -23,6 +24,8 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class DataStoreRepository @Inject constructor(@ApplicationContext private val context: Context) {
+    private val TAG = "DataStoreRepository"
+
     private val Context.dataStore by preferencesDataStore(PREFERENCES_NAME)
 
     private object PreferenceKeys {
@@ -78,6 +81,7 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
                     preferences[PreferenceKeys.intoleranceType] ?: DEFAULT_INTOLERANCE
                 val selectedIntoleranceTypeId = preferences[PreferenceKeys.intoleranceTypeId] ?: 0
 
+                Log.e(TAG, "Flow emitted")
                 RecipeFilterParameters(
                     selectedMealType,
                     selectedMealTypeId,
