@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.foody.R
 import com.example.foody.models.Recipe
 import com.example.foody.ui.fragments.recipes.RecipesFragmentDirections
@@ -40,7 +41,8 @@ class RecipesRowLayoutBinding {
         @BindingAdapter("loadImageFromUrl")
         @JvmStatic
         fun loadImageFromUrl(imageView: ImageView, url: String) {
-            Glide.with(imageView).load(url).into(imageView)
+            Glide.with(imageView).load(url).transition(DrawableTransitionOptions.withCrossFade())
+                .into(imageView)
         }
 
 

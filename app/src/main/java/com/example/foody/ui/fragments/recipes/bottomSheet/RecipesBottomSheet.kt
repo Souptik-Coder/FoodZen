@@ -57,31 +57,38 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
         binding.mealTypeChipGroup.setOnCheckedChangeListener { group, checkedId ->
             val chip = group.findViewById<Chip>(checkedId)
-            recipeFilterParameters.selectedMealType = chip.text.toString().lowercase()
-            recipeFilterParameters.selectedMealTypeId = checkedId
-            scrollChipToVisibleArea(group, checkedId)
+            if (chip != null) {
+                recipeFilterParameters.selectedMealType = chip.text.toString().lowercase()
+                recipeFilterParameters.selectedMealTypeId = checkedId
+                scrollChipToVisibleArea(chip)
+            }
         }
-
 
         binding.dietTypeChipGroup.setOnCheckedChangeListener { group, checkedId ->
             val chip = group.findViewById<Chip>(checkedId)
-            recipeFilterParameters.selectedDietType = chip.text.toString().lowercase()
-            recipeFilterParameters.selectedDietTypeId = checkedId
-            scrollChipToVisibleArea(group, checkedId)
+            if (chip != null) {
+                recipeFilterParameters.selectedDietType = chip.text.toString().lowercase()
+                recipeFilterParameters.selectedDietTypeId = checkedId
+                scrollChipToVisibleArea(chip)
+            }
         }
 
         binding.cuisineChipGroup.setOnCheckedChangeListener { group, checkedId ->
             val chip = group.findViewById<Chip>(checkedId)
-            recipeFilterParameters.selectedCuisineType = chip.text.toString().lowercase()
-            recipeFilterParameters.selectedCuisineTypeId = checkedId
-            scrollChipToVisibleArea(group, checkedId)
+            if (chip != null) {
+                recipeFilterParameters.selectedCuisineType = chip.text.toString().lowercase()
+                recipeFilterParameters.selectedCuisineTypeId = checkedId
+                scrollChipToVisibleArea(chip)
+            }
         }
 
         binding.intolerancesChipGroup.setOnCheckedChangeListener { group, checkedId ->
             val chip = group.findViewById<Chip>(checkedId)
-            recipeFilterParameters.selectedIntoleranceType = chip.text.toString().lowercase()
-            recipeFilterParameters.selectedIntoleranceTypeId = checkedId
-            scrollChipToVisibleArea(group, checkedId)
+            if (chip != null) {
+                recipeFilterParameters.selectedIntoleranceType = chip.text.toString().lowercase()
+                recipeFilterParameters.selectedIntoleranceTypeId = checkedId
+                scrollChipToVisibleArea(chip)
+            }
         }
 
         binding.applyButton.setOnClickListener {
@@ -90,9 +97,8 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun scrollChipToVisibleArea(chipGroup: ChipGroup, checkedChipId: Int) {
-        val targetView = chipGroup.findViewById<Chip>(checkedChipId)
-        targetView.parent.requestChildFocus(targetView, targetView)
+    private fun scrollChipToVisibleArea(chip: Chip) {
+        chip.parent.requestChildFocus(chip, chip)
     }
 
     private fun updateChip(chipId: Int, chipGroup: ChipGroup) {
