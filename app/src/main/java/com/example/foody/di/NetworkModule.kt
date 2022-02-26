@@ -2,9 +2,13 @@ package com.example.foody.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.data.FoodRecipesApi
+import com.example.foody.data.LocalDataSource
+import com.example.foody.data.RemoteDataSource
 import com.example.foody.data.database.AppDatabase
+import com.example.foody.data.repositories.DataStoreRepository
+import com.example.foody.data.repositories.Repository
+import com.example.foody.use_cases.*
 import com.example.foody.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -44,4 +48,29 @@ object NetworkModule {
             context,
             AppDatabase::class.java, "Recipes Database"
         ).build()
+
+    @Provides
+    @Singleton
+    fun provideRecipeUseCases(repository: Repository): RecipeUseCases =
+        RecipeUseCases(
+            getRecipes = GetRecipes(repository),
+            getRecipeById = GetRecipeById(repository),
+            getRecentRecipes = GetRecentRecipes(repository),
+            getFavouriteRecipes = GetFavouriteRecipes(repository),
+            insertFavouriteRecipes = InsertFavouriteRecipes(repository),
+            deleteFavouriteRecipes = DeleteFavouriteRecipes(repository),
+            insertRecentRecipes = InsertRecentRecipes(repository),
+            getRecipesByIngredient = GetRecipesByIngredient(repository),
+            detectFoodInText = DetectFoodInText(repository),
+            getIngredientSuggestion = GetIngredientSuggestion(repository)
+        )
+
+    @Provides
+    @Singleton
+    fun provideRepository(db: AppDatabase, api: FoodRecipesApi): Repository {
+        return Repository(
+            remoteDataSource = RemoteDataSource(api),
+            localDataSource = LocalDataSource(db)
+        )
+    }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/recipesFragment">
+    app:startDestination="@id/searchFragment">
 
     <fragment
         android:id="@+id/recipesFragment"
@@ -30,12 +30,13 @@
     <fragment
         android:id="@+id/RecipeCardFragment"
         android:name="com.example.foody.ui.fragments.recipecard.RecipeCardFragment"
-        android:label="Recipe Card" />
+        android:label="Recipe Card"
+        tools:layout="@layout/fragment_recipe_card" />
     <dialog
         android:id="@+id/recipesBottomSheet"
         android:name="com.example.foody.ui.fragments.recipes.bottomSheet.RecipesBottomSheet"
         android:label="recipes_bottom_sheet"
-        tools:layout="@layout/recipes_bottom_sheet" >
+        tools:layout="@layout/recipes_bottom_sheet">
         <action
             android:id="@+id/action_recipesBottomSheet_to_recipesFragment"
             app:destination="@id/recipesFragment" />
@@ -43,7 +44,8 @@
     <activity
         android:id="@+id/detailsActivity"
         android:name="com.example.foody.ui.DetailsActivity"
-        android:label="DetailsActivity" >
+        android:label="DetailsActivity"
+        tools:layout="@layout/activity_details">
         <argument
             android:name="recipe"
             app:argType="com.example.foody.models.Recipe" />
@@ -51,4 +53,31 @@
     <action
         android:id="@+id/action_global_detailsActivity"
         app:destination="@id/detailsActivity" />
+    <fragment
+        android:id="@+id/searchByIngredientFragment"
+        android:name="com.example.foody.ui.fragments.searchByIngredient.SearchByIngredientFragment"
+        android:label="Search By Ingredient"
+        tools:layout="@layout/fragment_search_by_ingredient" >
+        <action
+            android:id="@+id/action_searchByIngredientFragment_to_recipeListFragment"
+            app:destination="@id/recipeListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.foody.ui.fragments.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_searchByIngredientFragment"
+            app:destination="@id/searchByIngredientFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeListFragment"
+        android:name="com.example.foody.ui.fragments.recipeList.RecipeListFragment"
+        android:label="Recipes"
+        tools:layout="@layout/fragment_recipe_list">
+        <argument
+            android:name="recipeListItems"
+            app:argType="com.example.foody.models.RecipeListItem[]" />
+    </fragment>
 </navigation>

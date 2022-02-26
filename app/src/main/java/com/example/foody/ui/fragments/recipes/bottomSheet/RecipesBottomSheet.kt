@@ -15,6 +15,8 @@ import com.example.foody.util.Constants.DEFAULT_DIET
 import com.example.foody.util.Constants.DEFAULT_INTOLERANCE
 import com.example.foody.util.Constants.DEFAULT_MEAL_TYPE
 import com.example.foody.viewmodels.RecipesViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -25,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class RecipesBottomSheet : BottomSheetDialogFragment() {
 
     private val recipesViewModel by viewModels<RecipesViewModel>()
+    private val TAG = "RecipesBottomSheet"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +41,8 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val binding = RecipesBottomSheetBinding.bind(view)
 
+        (dialog as BottomSheetDialog).behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
         var recipeFilterParameters = DataStoreRepository.RecipeFilterParameters(
             DEFAULT_MEAL_TYPE, 0,
             DEFAULT_DIET, 0,
@@ -47,7 +52,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
         recipesViewModel.readRecipeFilterParameter.asLiveData()
             .observe(viewLifecycleOwner) { value ->
-                Log.e("RecipesBottomSheet", "Flow Collected")
+                Log.e(TAG, "Recipe filter parameter collected as LiveData")
                 recipeFilterParameters = value
                 updateChip(value.selectedMealTypeId, binding.mealTypeChipGroup)
                 updateChip(value.selectedDietTypeId, binding.dietTypeChipGroup)
@@ -100,7 +105,6 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
     private fun scrollChipToVisibleArea(chip: Chip) {
         chip.parent.requestChildFocus(chip, chip)
     }
-
     private fun updateChip(chipId: Int, chipGroup: ChipGroup) {
         if (chipId != 0)
             chipGroup.findViewById<Chip>(chipId)?.isChecked = true

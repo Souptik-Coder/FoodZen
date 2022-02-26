@@ -29,9 +29,9 @@ class FavouriteRecipesFragment : Fragment(R.layout.fragment_favourite_recipes) {
         mainViewModel.favouriteRecipes.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 showErrorTextViewAndImageView()
-                recipesAdapter.setData(RecipeList(emptyList()))
+                recipesAdapter.setData(emptyList())
             } else {
-                recipesAdapter.setData(RecipeList(it))
+                recipesAdapter.setData(it)
                 hideErrorTextViewAndImageView()
             }
         }

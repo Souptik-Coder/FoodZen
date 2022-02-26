@@ -61,8 +61,9 @@ class RecipeCardFragment : Fragment(R.layout.fragment_recipe_card) {
                 is NetworkResults.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
-                else -> {
-                    Snackbar.make(binding.root, response.message.orEmpty(), Snackbar.LENGTH_LONG)
+                is NetworkResults.Error -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    Snackbar.make(binding.root, getString(response.messageResId!!), Snackbar.LENGTH_LONG)
                         .show()
                 }
             }
@@ -74,18 +75,19 @@ class RecipeCardFragment : Fragment(R.layout.fragment_recipe_card) {
             val link = "https://smart-liv.com/FoodZen/recipes/${recipeId}"
             val message = "Take a look at this recipe.More info on $link"
             val intent = Intent(Intent.ACTION_SEND).apply {
-                type = "image/jpeg"
+                type = "image/jpg"
                 putExtra(
                     Intent.EXTRA_STREAM,
                     getImageUriFromBitmap(binding.cardImageView.drawable.toBitmap())
                 )
                 putExtra(Intent.EXTRA_TEXT, message)
             }
-            startActivity(Intent.createChooser(intent, "Share recipe card via"))
+            startActivity(Intent.createChooser(intent, "Share recipe card via..."))
         }
     }
 
     private fun getImageUriFromBitmap(bitmap: Bitmap): Uri? {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val filename = "${recipeId}.jpg"
             var fos: OutputStream?

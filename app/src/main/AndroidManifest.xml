@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Foody"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
         <activity
             android:name=".ui.DetailsActivity"
             android:exported="false"

@@ -112,7 +112,7 @@ class DetailsActivity : AppCompatActivity() {
         Snackbar.make(binding.root, "Recipe added to favourite", Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.details_activity_menu, menu)
         menuItem = menu!!.findItem(R.id.favourite)
         mainViewModel.favouriteRecipes.observe(this) { favourites ->

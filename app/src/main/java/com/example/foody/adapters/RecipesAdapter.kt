@@ -35,8 +35,8 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = recipes.size
 
-    fun setData(newData: RecipeList) {
-        recipes = newData.recipeList
+    fun setData(recipes:List<Recipe>) {
+        this.recipes = recipes
 //        val recipesDiffUtil = RecipesDiffUtil(newData.results, recipes)
 //        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
 //        diffUtilResult.dispatchUpdatesTo(this)

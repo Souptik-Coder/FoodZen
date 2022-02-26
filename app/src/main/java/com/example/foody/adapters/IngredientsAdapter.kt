@@ -18,7 +18,7 @@ class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.ViewHolder>()
             binding.ingredients = extendedIngredient
             binding.executePendingBindings()
             Glide.with(binding.root)
-                .load(Constants.BASE_IMAGE_URL + extendedIngredient.image)
+                .load(Constants.BASE_INGREDIENT_IMAGE_URL + extendedIngredient.image)
                 .into(binding.ingredientImageView)
         }
     }

@@ -13,7 +13,7 @@ import com.example.foody.R
 import com.example.foody.adapters.RecipesAdapter
 import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.databinding.FragmentRecipesBinding
-import com.example.foody.models.RecipeList
+import com.example.foody.models.Recipe
 import com.example.foody.util.NetworkResults
 import com.example.foody.viewmodels.MainViewModel
 import com.example.foody.viewmodels.RecipesViewModel
@@ -27,7 +27,8 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
 
     private val TAG = "RecipesFragment"
 
-    private val args by navArgs<RecipesFragmentArgs>()
+    private val args by navArgs<RecipesFragmentArgs>() //receives id only when deeplink is requested else -1
+    private val isDeepLinkRequested by lazy { args.id != -1 }
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
     private val mainViewModel by viewModels<MainViewModel>()
@@ -36,14 +37,15 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            if (args.id == -1)
+            if (isDeepLinkRequested) {
+                mainViewModel.getRecipeById(args.id)
+            } else {
                 mainViewModel.viewModelScope.launch {
                     recipesViewModel.readRecipeFilterParameter.collectLatest {
                         requestApiData(it)
                     }
                 }
-            else
-                mainViewModel.getRecipeById(args.id)
+            }
         }
     }
 
@@ -62,61 +64,59 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     }
 
     private fun setUpDataObservers() {
-        mainViewModel.recipeResponse.observe(requireActivity()) { response ->
-            Log.d(TAG, "LiveData RecipeResponse received")
+        mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
+            Log.d(TAG, "Recipe Response received as LiveData")
             when (response) {
                 is NetworkResults.Loading -> {
                     hideErrorTextViewAndImageView()
                     showShimmerEffect()
                 }
                 is NetworkResults.Success -> {
-                    if (args.id == -1) {
+                    if (isDeepLinkRequested) {
+                        handleDeepLink(response)
+                    } else {
                         hideShimmerEffect()
                         hideErrorTextViewAndImageView()
                         recipesAdapter.setData(response.data!!)
                     }
-                    // Deep Link requested
-                    else {
-                        val action =
-                            RecipesFragmentDirections.actionGlobalDetailsActivity(
-                                response.data!!.recipeList.first()
-                            )
-                        findNavController().navigate(action)
-                        requireActivity().finish()
-                    }
                 }
-
-                is NetworkResults.InternetError -> {
-                    showSnackbar(response.message!!)
-                    hideErrorTextViewAndImageView()
-                    hideShimmerEffect()
-                    showCachedData()
-                }
-
                 is NetworkResults.Error -> {
                     hideShimmerEffect()
-                    showErrorTextViewAndImageView()
-                    binding.errorTextView.text = response.message
-                    response.data?.let { recipesAdapter.setData(it) }
+                    if (response.data != null) {
+                        showSnackBar(getString(response.messageResId!!))
+                        recipesAdapter.setData(response.data)
+                    } else {
+                        showErrorTextViewAndImageView()
+                        binding.errorTextView.text = getText(response.messageResId!!)
+                    }
                 }
             }
         }
     }
 
-    private fun showSnackbar(message: String) {
-        val snackbar = Snackbar.make(
-            binding.root,
-            message,
-            Snackbar.LENGTH_INDEFINITE
-        )
-
-        snackbar.setAction("Dismiss") {
-            snackbar.dismiss()
-        }
-        snackbar.show()
+    private fun handleDeepLink(response: NetworkResults<List<Recipe>>) {
+        val action =
+            RecipesFragmentDirections.actionGlobalDetailsActivity(
+                response.data!!.first()
+            )
+        findNavController().navigate(action)
+        requireActivity().finish()
     }
 
-    private fun showCachedData() {
+    private fun showSnackBar(message: String) {
+        val snackBar = Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_LONG
+        )
+
+        snackBar.setAction("Dismiss") {
+            snackBar.dismiss()
+        }
+        snackBar.show()
+    }
+
+    /*private fun showCachedData() {
         mainViewModel.getAllRecentRecipes()
         mainViewModel.recentRecipes.observe(viewLifecycleOwner) { cachedData ->
             if (mainViewModel.recipeResponse.value is NetworkResults.InternetError) {
@@ -127,7 +127,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
                     showErrorTextViewAndImageView()
             }
         }
-    }
+    }*/
 
     private fun hideErrorTextViewAndImageView() {
         binding.errorImageView.visibility = View.INVISIBLE

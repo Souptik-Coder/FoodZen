@@ -2,7 +2,7 @@ package com.example.foody.util
 
 object Constants {
     const val BASE_URL = "https://api.spoonacular.com/"
-    const val BASE_IMAGE_URL = "https://spoonacular.com/cdn/ingredients_100x100/"
+    const val BASE_INGREDIENT_IMAGE_URL = "https://spoonacular.com/cdn/ingredients_100x100/"
     const val API_KEY ="b55947b3254449a2a6e735742300a0b2" //"9db6bc7d4cd0441fa7aa2054d853f21e"
 
     //API Query Keys
@@ -18,7 +18,7 @@ object Constants {
     const val QUERY_SORT_DIRECTIONS="sortDirection"
 
     //Bottom sheet and Preferences
-    const val NO_FILTER = "no filter"
+    const val NO_FILTER = "" //empty string for no filter
     const val DEFAULT_RECIPES_NUMBER = "50"
     const val DEFAULT_MEAL_TYPE = NO_FILTER
     const val DEFAULT_DIET = NO_FILTER

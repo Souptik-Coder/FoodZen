@@ -6,6 +6,10 @@
         android:icon="@drawable/ic_restaurant_menu"
         android:title="@string/recipes" />
     <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_search"
+        android:title="Search" />
+    <item
         android:id="@+id/favouriteRecipesFragment"
         android:icon="@drawable/ic_star"
         android:title="@string/favourite" />

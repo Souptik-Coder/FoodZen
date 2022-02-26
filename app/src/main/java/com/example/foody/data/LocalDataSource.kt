@@ -5,7 +5,6 @@ import com.example.foody.data.database.entities.toFavouriteEntity
 import com.example.foody.data.database.entities.toRecentEntity
 import com.example.foody.data.database.entities.toRecipe
 import com.example.foody.models.Recipe
-import com.example.foody.models.RecipeList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -25,9 +24,9 @@ class LocalDataSource @Inject constructor(private val db: AppDatabase) {
         }
     }
 
-    suspend fun insertAllRecentRecipes(recipeList: RecipeList) {
+    suspend fun insertAllRecentRecipes(recipes: List<Recipe>) {
         db.resultDao().deleteAllRecentRecipes()
-        db.resultDao().insertAllRecentRecipes(recipeList.recipeList.map { it.toRecentEntity() })
+        db.resultDao().insertAllRecentRecipes(recipes.map { it.toRecentEntity() })
     }
 
     suspend fun deleteFavouriteRecipe(recipe: Recipe) {

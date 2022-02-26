@@ -1,9 +1,8 @@
 package com.example.foody.data
 
 import android.util.Log
-import com.example.foody.models.RecipeList
-import com.example.foody.models.Recipe
-import com.example.foody.models.RecipeCard
+import com.example.foody.models.*
+import com.example.foody.util.Constants.API_KEY
 import com.google.gson.Gson
 import retrofit2.Response
 import javax.inject.Inject
@@ -16,11 +15,27 @@ class RemoteDataSource @Inject constructor(
         return foodRecipesApi.getRecipes(queries)
     }
 
-    suspend fun getRecipesById(id: Int, apiKey: String): Response<Recipe> {
+    suspend fun getRecipesById(id: Int, apiKey: String = API_KEY): Response<Recipe> {
         return foodRecipesApi.getRecipesById(id, apiKey)
     }
-    suspend fun getRecipeCard(id: Int, apiKey: String): Response<RecipeCard> {
-        return foodRecipesApi.getRecipeCard(id,apiKey)
+
+    suspend fun getRecipeCard(id: Int, apiKey: String = API_KEY): Response<RecipeCard> {
+        return foodRecipesApi.getRecipeCard(id, apiKey)
+    }
+
+    suspend fun getRecipeByIngredient(queries: Map<String, String>): Response<List<RecipeByIngredientItem>> {
+        Log.e("Queries", Gson().toJson(queries).toString())
+        return foodRecipesApi.getRecipesByIngredients(queries)
+    }
+
+    suspend fun detectFoodInText(text: String): Response<DetectedFood> {
+        Log.e("Queries", text)
+        return foodRecipesApi.detectFoodInText(text)
+    }
+
+    suspend fun getIngredientSuggestion(query: String): Response<List<IngredientAutoCompleteItem>> {
+        Log.e("Queries", query)
+        return foodRecipesApi.ingredientAutoComplete(query)
     }
 
 }

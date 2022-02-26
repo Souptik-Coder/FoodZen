@@ -33,20 +33,18 @@ class RecipeCardViewModel @Inject constructor(
                 handleRecipeCardResponse(response)
             } else
                 recipeCardResponse.value =
-                    NetworkResults.Error(message = response.message())
+                    NetworkResults.Error(R.string.unknown_error)
         } catch (exception: Exception) {
             recipeCardResponse.value =
-                NetworkResults.InternetError(
-                    message = context.getString(R.string.no_internet_connections)
-                )
+                NetworkResults.Error(R.string.internet_error)
         }
     }
 
     private fun handleRecipeCardResponse(response: Response<RecipeCard>) {
         if (response.code() == 404) {
             recipeCardResponse.value =
-                NetworkResults.Error(message = context.getString(R.string.recipe_card_not_found))
+                NetworkResults.Error(R.string.recipe_card_not_found)
         } else
-            recipeCardResponse.value = NetworkResults.Success(data = response.body()!!)
+            recipeCardResponse.value = NetworkResults.Success(response.body()!!)
     }
 }
