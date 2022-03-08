@@ -13,5 +13,5 @@ data class IngredientAutoCompleteItem(
     val name: String,
 )
 
-fun IngredientAutoCompleteItem.toIngredient() =
+fun IngredientAutoCompleteItem.toIngredient():Ingredient =
     Ingredient(name, Constants.BASE_INGREDIENT_IMAGE_URL + image)

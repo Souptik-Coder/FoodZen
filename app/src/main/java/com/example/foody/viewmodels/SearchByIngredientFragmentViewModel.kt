@@ -29,7 +29,7 @@ class SearchByIngredientFragmentViewModel @Inject constructor(
     private val _recipeResponse: MutableLiveData<NetworkResults<List<RecipeListItem>>> =
         MutableLiveData()
     val recipeResponse: LiveData<NetworkResults<List<RecipeListItem>>> = _recipeResponse
-    val ingredientSuggestionResponse = MutableStateFlow<NetworkResults<List<Ingredient>>>(
+    val ingredientSuggestionResponse = MutableLiveData<NetworkResults<List<Ingredient>>>(
         NetworkResults.Success(
             emptyList()
         )

@@ -3,14 +3,14 @@ package com.example.foody.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Annotation(
+data class DetectedFoodEntity(
     @SerializedName("annotation")
     val name: String,
     @SerializedName("image")
-    val image: String?,
+    val imageUrl: String?,
     @SerializedName("tag")
-    val tag: String
+    val tag: String // "dish" or "ingredient"
 )
 
-fun Annotation.toIngredient() =
-    Ingredient(name, image.orEmpty())
+fun DetectedFoodEntity.toIngredient() =
+    Ingredient(name, imageUrl.orEmpty())

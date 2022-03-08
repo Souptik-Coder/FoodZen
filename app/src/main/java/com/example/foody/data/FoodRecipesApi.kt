@@ -35,7 +35,7 @@ interface FoodRecipesApi {
     suspend fun detectFoodInText(
         @Query("text") text: String,
         @Query("apiKey") apiKey: String = API_KEY
-    ): Response<DetectedFood>
+    ): Response<DetectedFoodEntities>
 
     @GET("food/ingredients/autocomplete")
     suspend fun ingredientAutoComplete(

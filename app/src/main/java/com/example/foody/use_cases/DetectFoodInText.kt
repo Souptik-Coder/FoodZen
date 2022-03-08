@@ -14,7 +14,7 @@ class DetectFoodInText(
         return try {
             val response = repository.remote.detectFoodInText(text)
             if (response.isSuccessful) {
-                val ingredientsAnnotation = response.body()!!.annotations
+                val ingredientsAnnotation = response.body()!!.detectedFoodEntities
                 val ingredients = ArrayList<Ingredient>()
 
                 ingredientsAnnotation.forEach {

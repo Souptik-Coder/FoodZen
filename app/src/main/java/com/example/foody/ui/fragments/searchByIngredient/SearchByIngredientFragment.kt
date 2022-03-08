@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.foody.R
 import com.example.foody.adapters.IngredientSuggestionArrayAdapter
@@ -23,7 +22,6 @@ import com.example.foody.viewmodels.SearchByIngredientFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 
 @AndroidEntryPoint
@@ -32,6 +30,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
     private val TAG = "SearchByIngredient"
     private val REQUEST_IMAGE_PICK = 1
     private val REQUEST_IMAGE_CAPTURE = 2
+    private var canNavigate = false
 
     private var progressDialog: AlertDialog? = null
     private lateinit var binding: FragmentSearchByIngredientBinding
@@ -59,6 +58,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
             handlePickImage()
         }
         binding.searchBtn.setOnClickListener {
+            canNavigate = true
             viewModel.getRecipesByIngredient(viewModel.applyQueries())
         }
     }
@@ -118,19 +118,18 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
                 }
             }
         }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.ingredientSuggestionResponse.collectLatest { res ->
-                when (res) {
-                    is NetworkResults.Error -> showSnackBar(getString(res.messageResId!!))
-                    is NetworkResults.Loading -> Unit
-                    is NetworkResults.Success -> suggestionArrayAdapter.setData(res.data!!)
-                }
+        viewModel.ingredientSuggestionResponse.observe(viewLifecycleOwner) { res ->
+            when (res) {
+                is NetworkResults.Error -> showSnackBar(getString(res.messageResId!!))
+                is NetworkResults.Loading -> Unit
+                is NetworkResults.Success -> suggestionArrayAdapter.setData(res.data!!)
             }
         }
 
         viewModel.currentIngredient.observe(viewLifecycleOwner) {
             ingredientAdapter.submitList(it)
+            binding.ingredientCountTextView.text =
+                getString(R.string.ingredient_count_text).format(it.size)
         }
 
         viewModel.recipeResponse.observe(viewLifecycleOwner) { res ->
@@ -139,11 +138,14 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
                 is NetworkResults.Loading -> showProgressDialog("Loading Recipes...")
                 is NetworkResults.Success -> {
                     hideProgressDialog()
-                    val action =
-                        SearchByIngredientFragmentDirections.actionSearchByIngredientFragmentToRecipeListFragment(
-                            res.data?.toTypedArray() ?: emptyArray()
-                        )
-                    findNavController().navigate(action)
+                    if (canNavigate) {
+                        val action =
+                            SearchByIngredientFragmentDirections.actionSearchByIngredientFragmentToRecipeListFragment(
+                                res.data?.toTypedArray() ?: emptyArray()
+                            )
+                        findNavController().navigate(action)
+                        canNavigate = false
+                    }
                 }
             }
         }

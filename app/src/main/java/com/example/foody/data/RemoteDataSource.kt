@@ -28,7 +28,7 @@ class RemoteDataSource @Inject constructor(
         return foodRecipesApi.getRecipesByIngredients(queries)
     }
 
-    suspend fun detectFoodInText(text: String): Response<DetectedFood> {
+    suspend fun detectFoodInText(text: String): Response<DetectedFoodEntities> {
         Log.e("Queries", text)
         return foodRecipesApi.detectFoodInText(text)
     }

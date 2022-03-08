@@ -3,7 +3,7 @@ package com.example.foody.models
 
 import com.google.gson.annotations.SerializedName
 
-data class DetectedFood(
+data class DetectedFoodEntities(
     @SerializedName("annotations")
-    val annotations: List<Annotation>
+    val detectedFoodEntities: List<DetectedFoodEntity>
 )
