@@ -9,9 +9,16 @@ import com.example.foody.models.RecipeListItem
 
 class RecipeListItemAdapter : RecyclerView.Adapter<RecipeListItemAdapter.ViewHolder>() {
     private var recipeListItems = emptyList<RecipeListItem>()
+    private var onItemClickListener: ((RecipeListItem) -> Unit)? = null
 
-    class ViewHolder(private val binding: RecipeListItemBinding) :
+    inner class ViewHolder(private val binding: RecipeListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(recipeListItems[adapterPosition]);
+            }
+        }
+
         fun bind(recipeListItem: RecipeListItem) {
             binding.textView.text = recipeListItem.title
             Glide.with(binding.root).load(recipeListItem.image).into(binding.imageView)
@@ -39,5 +46,9 @@ class RecipeListItemAdapter : RecyclerView.Adapter<RecipeListItemAdapter.ViewHol
     fun setData(recipeListItems: List<RecipeListItem>) {
         this.recipeListItems = recipeListItems
         notifyDataSetChanged()
+    }
+
+    fun setOnItemClickListener(onItemClickListener: ((RecipeListItem) -> Unit)) {
+        this.onItemClickListener = onItemClickListener;
     }
 }
