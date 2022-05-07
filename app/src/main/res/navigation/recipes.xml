@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipes"
+    app:startDestination="@id/recipesFragment">
+    <fragment
+        android:id="@+id/recipesFragment"
+        android:name="com.example.foody.ui.fragments.recipes.RecipesFragment"
+        tools:layout="@layout/fragment_recipes"
+        android:label="Recipes">
+        <action
+            android:id="@+id/action_recipesFragment_to_recipesBottomSheet"
+            app:destination="@id/recipesBottomSheet" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:action="@string/ACTION_SHOW_RECIPES"
+            app:uri="https://smart-liv.com/FoodZen/recipes/{id}" />
+        <argument
+            android:name="id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <dialog
+        android:id="@+id/recipesBottomSheet"
+        android:name="com.example.foody.ui.fragments.recipes.bottomSheet.RecipesBottomSheet"
+        android:label="recipes_bottom_sheet"
+        tools:layout="@layout/recipes_bottom_sheet">
+        <action
+            android:id="@+id/action_recipesBottomSheet_to_recipesFragment"
+            app:destination="@id/recipesFragment" />
+    </dialog>
+</navigation>

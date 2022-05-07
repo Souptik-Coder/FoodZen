@@ -38,6 +38,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
     private lateinit var ingredientAdapter: SearchByIngredientAdapter
     private val viewModel: SearchByIngredientFragmentViewModel by viewModels()
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
             val imageBitmap =

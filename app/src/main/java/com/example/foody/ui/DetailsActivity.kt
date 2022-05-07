@@ -9,10 +9,10 @@ import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.navArgs
 import com.example.foody.R
 import com.example.foody.adapters.PagerAdapter
 import com.example.foody.databinding.ActivityDetailsBinding
+import com.example.foody.models.Recipe
 import com.example.foody.ui.fragments.ingredients.IngredientsFragment
 import com.example.foody.ui.fragments.instructions.InstructionsFragment
 import com.example.foody.ui.fragments.overview.OverviewFragment
@@ -25,11 +25,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
-    private val args by navArgs<DetailsActivityArgs>()
     private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var menuItem: MenuItem
     private var isFavourite = false
     private lateinit var binding: ActivityDetailsBinding
+    private lateinit var currentRecipe: Recipe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +40,7 @@ class DetailsActivity : AppCompatActivity() {
         binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        currentRecipe = intent.getParcelableExtra("recipe")!!
 
         val fragments = ArrayList<Fragment>()
         fragments.add(OverviewFragment())
@@ -52,7 +53,7 @@ class DetailsActivity : AppCompatActivity() {
         title.add("More Info")
 
         val resultBundle = Bundle()
-        resultBundle.putParcelable("resultBundle", args.recipe)
+        resultBundle.putParcelable("resultBundle", currentRecipe)
 
         val pagerAdapter = PagerAdapter(
             resultBundle,
@@ -87,8 +88,8 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun shareRecipeLink() {
-        val link = "https://smart-liv.com/FoodZen/recipes/${args.recipe.id}"
-        val message = getString(R.string.link_share_message).format(args.recipe.title, link)
+        val link = "https://smart-liv.com/FoodZen/recipes/${currentRecipe.id}"
+        val message = getString(R.string.link_share_message).format(currentRecipe.title, link)
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
@@ -101,23 +102,23 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun deleteAndUnmarkedAsFavourite(menuItem: MenuItem) {
-        mainViewModel.deleteFavouriteRecipe(args.recipe)
+        mainViewModel.deleteFavouriteRecipe(currentRecipe)
         changeMenuItemColor(menuItem, R.color.white)
         Snackbar.make(binding.root, "Recipe removed from favourite", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun saveAndMarkAsFavourite(menuItem: MenuItem) {
-        mainViewModel.insertFavouriteRecipe(args.recipe)
+        mainViewModel.insertFavouriteRecipe(currentRecipe)
         changeMenuItemColor(menuItem, R.color.yellow)
         Snackbar.make(binding.root, "Recipe added to favourite", Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.details_activity_menu, menu)
-        menuItem = menu!!.findItem(R.id.favourite)
+        menuItem = menu.findItem(R.id.favourite)
         mainViewModel.favouriteRecipes.observe(this) { favourites ->
             favourites.forEach {
-                if (it.id == args.recipe.id) {
+                if (it.id == currentRecipe.id) {
                     isFavourite = true
                     changeMenuItemColor(
                         menuItem,
