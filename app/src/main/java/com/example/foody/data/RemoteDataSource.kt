@@ -43,4 +43,8 @@ class RemoteDataSource @Inject constructor(
         return foodRecipesApi.recipeAutoComplete(query)
     }
 
+    suspend fun getAnalyzedInstruction(id: Int):Response<List<AnalyzedInstructionItem>>{
+        return foodRecipesApi.getAnalyzedInstruction(id)
+    }
+
 }

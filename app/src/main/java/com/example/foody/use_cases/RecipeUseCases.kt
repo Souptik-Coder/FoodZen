@@ -11,5 +11,6 @@ data class RecipeUseCases(
     val getRecipesByIngredient: GetRecipesByIngredient,
     val detectFoodInText: DetectFoodInText,
     val getIngredientSuggestion: GetIngredientSuggestion,
-    val getRecipeSuggestion:GetRecipesSuggestion
+    val getRecipeSuggestion:GetRecipesSuggestion,
+    val getAnalyzedInstruction: GetAnalyzedInstruction
 )

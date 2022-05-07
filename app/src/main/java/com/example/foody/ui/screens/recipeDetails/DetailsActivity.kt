@@ -13,9 +13,11 @@ import com.example.foody.R
 import com.example.foody.adapters.PagerAdapter
 import com.example.foody.databinding.ActivityDetailsBinding
 import com.example.foody.models.Recipe
+import com.example.foody.ui.screens.analyzedInstructions.AnalyzedInstructionFragment
 import com.example.foody.ui.screens.ingredients.IngredientsFragment
 import com.example.foody.ui.screens.instructions.InstructionsFragment
 import com.example.foody.ui.screens.overview.OverviewFragment
+import com.example.foody.util.NetworkResults
 import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
     private val mainViewModel by viewModels<MainViewModel>()
+    private val viewModel: DetailsActivityViewModel by viewModels()
     private lateinit var menuItem: MenuItem
     private var isFavourite = false
     private lateinit var binding: ActivityDetailsBinding
@@ -37,6 +40,7 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+        setUpDataObserver()
         binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -45,11 +49,13 @@ class DetailsActivity : AppCompatActivity() {
         val fragments = ArrayList<Fragment>()
         fragments.add(OverviewFragment())
         fragments.add(IngredientsFragment())
+        fragments.add(AnalyzedInstructionFragment())
         fragments.add(InstructionsFragment())
 
         val title = ArrayList<String>()
         title.add("Overview")
         title.add("Ingredients")
+        title.add("Instructions")
         title.add("More Info")
 
         val resultBundle = Bundle()
@@ -66,6 +72,23 @@ class DetailsActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = title[position]
         }.attach()
+    }
+
+    private fun setUpDataObserver() {
+        viewModel.analyzedInstructionResponse.observe(this) { res ->
+            when (res) {
+                is NetworkResults.Error -> Unit //Handled by fragment
+                is NetworkResults.Loading -> Unit //Handled by fragment
+                is NetworkResults.Success -> {
+                    if (isFavourite) {
+                        val analyzedInstruction = res.data?.first()
+                        currentRecipe =
+                            currentRecipe.copy(analyzedInstruction = analyzedInstruction)
+                        mainViewModel.insertFavouriteRecipe(currentRecipe)
+                    }
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -98,7 +121,7 @@ class DetailsActivity : AppCompatActivity() {
                 message
             )
         }
-        startActivity(Intent.createChooser(intent, "Share recipe card via"))
+        startActivity(Intent.createChooser(intent, "Share recipe via"))
     }
 
     private fun deleteAndUnmarkedAsFavourite(menuItem: MenuItem) {

@@ -134,7 +134,10 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
 
         viewModel.recipeResponse.observe(viewLifecycleOwner) { res ->
             when (res) {
-                is NetworkResults.Error -> showSnackBar(getString(res.messageResId!!))
+                is NetworkResults.Error ->{
+                    showSnackBar(getString(res.messageResId!!))
+                    hideProgressDialog()
+                }
                 is NetworkResults.Loading -> showProgressDialog("Loading Recipes...")
                 is NetworkResults.Success -> {
                     hideProgressDialog()

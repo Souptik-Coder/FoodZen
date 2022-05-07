@@ -2,7 +2,7 @@ package com.example.foody.models
 
 
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -38,4 +38,6 @@ data class Recipe(
     val veryHealthy: Boolean,
     @ColumnInfo(name = "veryPopular") @SerializedName("veryPopular")
     val veryPopular: Boolean,
+    @ColumnInfo(name = "analyzedInstructions")
+    val analyzedInstruction: AnalyzedInstructionItem? = null
 ) : Parcelable

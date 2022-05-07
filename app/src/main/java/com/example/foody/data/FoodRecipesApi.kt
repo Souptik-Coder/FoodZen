@@ -51,4 +51,9 @@ interface FoodRecipesApi {
         @Query("apiKey") apiKey: String = API_KEY
     ):Response<List<RecipeSuggestionItem>>
 
+    @GET("recipes/{id}/analyzedInstructions")
+    suspend fun getAnalyzedInstruction(
+        @Path("id") id: Int,
+        @Query("apiKey") apiKey: String = API_KEY
+    ):Response<List<AnalyzedInstructionItem>>
 }

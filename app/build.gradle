@@ -86,4 +86,5 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.2"
 
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.0'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }
