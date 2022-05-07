@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.recipes.bottomSheet
+package com.example.foody.ui.screens.recipes.bottomSheet
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,7 @@ import com.example.foody.util.Constants.DEFAULT_CUISINE
 import com.example.foody.util.Constants.DEFAULT_DIET
 import com.example.foody.util.Constants.DEFAULT_INTOLERANCE
 import com.example.foody.util.Constants.DEFAULT_MEAL_TYPE
-import com.example.foody.viewmodels.RecipesViewModel
+import com.example.foody.ui.screens.recipes.RecipesViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

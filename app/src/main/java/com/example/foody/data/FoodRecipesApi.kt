@@ -44,4 +44,11 @@ interface FoodRecipesApi {
         @Query("apiKey") apiKey: String = API_KEY
     ): Response<List<IngredientAutoCompleteItem>>
 
+    @GET("recipes/autocomplete")
+    suspend fun recipeAutoComplete(
+        @Query("query") query:String,
+        @Query("number") number: Int = 5,
+        @Query("apiKey") apiKey: String = API_KEY
+    ):Response<List<RecipeSuggestionItem>>
+
 }

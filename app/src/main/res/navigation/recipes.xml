@@ -6,7 +6,7 @@
     app:startDestination="@id/recipesFragment">
     <fragment
         android:id="@+id/recipesFragment"
-        android:name="com.example.foody.ui.fragments.recipes.RecipesFragment"
+        android:name="com.example.foody.ui.screens.recipes.RecipesFragment"
         tools:layout="@layout/fragment_recipes"
         android:label="Recipes">
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <dialog
         android:id="@+id/recipesBottomSheet"
-        android:name="com.example.foody.ui.fragments.recipes.bottomSheet.RecipesBottomSheet"
+        android:name="com.example.foody.ui.screens.recipes.bottomSheet.RecipesBottomSheet"
         android:label="recipes_bottom_sheet"
         tools:layout="@layout/recipes_bottom_sheet">
         <action

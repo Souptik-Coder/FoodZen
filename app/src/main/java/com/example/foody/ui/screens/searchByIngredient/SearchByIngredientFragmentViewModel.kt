@@ -1,4 +1,4 @@
-package com.example.foody.viewmodels
+package com.example.foody.ui.screens.searchByIngredient
 
 import android.app.Application
 import android.graphics.Bitmap

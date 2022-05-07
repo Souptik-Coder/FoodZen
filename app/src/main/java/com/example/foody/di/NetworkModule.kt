@@ -62,7 +62,8 @@ object NetworkModule {
             insertRecentRecipes = InsertRecentRecipes(repository),
             getRecipesByIngredient = GetRecipesByIngredient(repository),
             detectFoodInText = DetectFoodInText(repository),
-            getIngredientSuggestion = GetIngredientSuggestion(repository)
+            getIngredientSuggestion = GetIngredientSuggestion(repository),
+            getRecipeSuggestion = GetRecipesSuggestion(repository)
         )
 
     @Provides

@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.searchByIngredient
+package com.example.foody.ui.screens.searchByIngredient
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
@@ -18,7 +18,6 @@ import com.example.foody.adapters.IngredientSuggestionArrayAdapter
 import com.example.foody.adapters.SearchByIngredientAdapter
 import com.example.foody.databinding.FragmentSearchByIngredientBinding
 import com.example.foody.util.NetworkResults
-import com.example.foody.viewmodels.SearchByIngredientFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

@@ -6,12 +6,12 @@
     app:startDestination="@+id/search">
     <fragment
         android:id="@+id/favouriteRecipesFragment"
-        android:name="com.example.foody.ui.fragments.favourite.FavouriteRecipesFragment"
+        android:name="com.example.foody.ui.screens.favourite.FavouriteRecipesFragment"
         android:label="Favourite"
         tools:layout="@layout/fragment_favourite_recipes" />
     <fragment
         android:id="@+id/RecipeCardFragment"
-        android:name="com.example.foody.ui.fragments.recipecard.RecipeCardFragment"
+        android:name="com.example.foody.ui.screens.recipecard.RecipeCardFragment"
         android:label="Recipe Card"
         tools:layout="@layout/fragment_recipe_card" />
     <include app:graph="@navigation/recipes"/>

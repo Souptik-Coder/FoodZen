@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.recipecard
+package com.example.foody.ui.screens.recipecard
 
 import android.content.ContentValues
 import android.content.Intent
@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.example.foody.R
 import com.example.foody.databinding.FragmentRecipeCardBinding
 import com.example.foody.util.NetworkResults
-import com.example.foody.viewmodels.RecipeCardViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers

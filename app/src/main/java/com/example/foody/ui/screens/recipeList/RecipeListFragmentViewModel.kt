@@ -1,4 +1,4 @@
-package com.example.foody.viewmodels
+package com.example.foody.ui.screens.recipeList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

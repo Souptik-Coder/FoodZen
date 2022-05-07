@@ -20,7 +20,6 @@ class MainViewModel @Inject constructor(
     private val recipeUseCases: RecipeUseCases,
 ) : AndroidViewModel(application) {
     init {
-        getRecentRecipes()
         getFavouriteRecipes()
     }
 
@@ -39,6 +38,7 @@ class MainViewModel @Inject constructor(
 
 
     fun getRecipeById(id: Int) = viewModelScope.launch {
+        _recipeResponse.value = NetworkResults.Loading()
         _recipeResponse.value = recipeUseCases.getRecipeById(id)
     }
 
@@ -54,15 +54,5 @@ class MainViewModel @Inject constructor(
 
     fun deleteFavouriteRecipe(recipe: Recipe) = viewModelScope.launch {
         recipeUseCases.deleteFavouriteRecipes(recipe)
-    }
-
-    private fun insertRecentRecipes(recipes: List<Recipe>) = viewModelScope.launch {
-        recipeUseCases.insertRecentRecipes(recipes)
-    }
-
-    private fun getRecentRecipes() = viewModelScope.launch {
-        recipeUseCases.getRecentRecipes().collect {
-            recentRecipes.value = it
-        }
     }
 }

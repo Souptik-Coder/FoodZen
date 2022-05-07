@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.overview
+package com.example.foody.ui.screens.overview
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod

@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.recipeList
+package com.example.foody.ui.screens.recipeList
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foody.R
 import com.example.foody.adapters.RecipeListItemAdapter
 import com.example.foody.databinding.FragmentRecipeListBinding
-import com.example.foody.ui.DetailsActivity
+import com.example.foody.ui.screens.recipeDetails.DetailsActivity
 import com.example.foody.util.NetworkResults
-import com.example.foody.viewmodels.RecipeListFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +44,7 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
                 }
                 is NetworkResults.Error -> {
                     Snackbar.make(binding.root, res.messageResId!!, Snackbar.LENGTH_LONG).show()
+                    hideProgressDialog()
                 }
                 is NetworkResults.Success -> {
                     if (canNavigate) {

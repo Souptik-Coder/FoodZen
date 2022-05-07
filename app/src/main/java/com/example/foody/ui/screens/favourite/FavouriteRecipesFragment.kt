@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.favourite
+package com.example.foody.ui.screens.favourite
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foody.R
 import com.example.foody.adapters.RecipesAdapter
 import com.example.foody.databinding.FragmentFavouriteRecipesBinding
-import com.example.foody.models.RecipeList
 import com.example.foody.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

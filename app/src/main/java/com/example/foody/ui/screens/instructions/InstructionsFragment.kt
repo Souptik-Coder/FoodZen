@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.instructions
+package com.example.foody.ui.screens.instructions
 
 import android.os.Bundle
 import android.view.View

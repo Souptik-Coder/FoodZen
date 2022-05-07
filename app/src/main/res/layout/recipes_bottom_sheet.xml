@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="600dp"
-            tools:context=".ui.fragments.recipes.bottomSheet.RecipesBottomSheet">
+            tools:context=".ui.screens.recipes.bottomSheet.RecipesBottomSheet">
 
 
             <!--<TextView

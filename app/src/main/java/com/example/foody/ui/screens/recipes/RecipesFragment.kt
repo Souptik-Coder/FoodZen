@@ -1,4 +1,4 @@
-package com.example.foody.ui.fragments.recipes
+package com.example.foody.ui.screens.recipes
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,10 +15,9 @@ import com.example.foody.adapters.RecipesAdapter
 import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.databinding.FragmentRecipesBinding
 import com.example.foody.models.Recipe
-import com.example.foody.ui.DetailsActivity
+import com.example.foody.ui.screens.recipeDetails.DetailsActivity
 import com.example.foody.util.NetworkResults
 import com.example.foody.viewmodels.MainViewModel
-import com.example.foody.viewmodels.RecipesViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -97,7 +96,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     }
 
     private fun handleDeepLink(response: NetworkResults<List<Recipe>>) {
-        val intent = Intent(requireContext(),DetailsActivity::class.java).apply {
+        val intent = Intent(requireContext(), DetailsActivity::class.java).apply {
             putExtra("recipe", response.data?.first())
         }
         startActivity(intent)

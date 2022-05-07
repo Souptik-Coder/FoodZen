@@ -18,8 +18,9 @@
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />
+
         <activity
-            android:name=".ui.DetailsActivity"
+            android:name=".ui.screens.recipeDetails.DetailsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -34,7 +35,8 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/nav_graph" />
         </activity>
     </application>

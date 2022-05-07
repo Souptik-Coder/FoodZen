@@ -1,4 +1,4 @@
-package com.example.foody.ui
+package com.example.foody.ui.screens.recipeDetails
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,9 +13,9 @@ import com.example.foody.R
 import com.example.foody.adapters.PagerAdapter
 import com.example.foody.databinding.ActivityDetailsBinding
 import com.example.foody.models.Recipe
-import com.example.foody.ui.fragments.ingredients.IngredientsFragment
-import com.example.foody.ui.fragments.instructions.InstructionsFragment
-import com.example.foody.ui.fragments.overview.OverviewFragment
+import com.example.foody.ui.screens.ingredients.IngredientsFragment
+import com.example.foody.ui.screens.instructions.InstructionsFragment
+import com.example.foody.ui.screens.overview.OverviewFragment
 import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
