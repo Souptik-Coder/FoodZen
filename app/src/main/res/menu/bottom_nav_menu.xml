@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/recipesFragment"
+        android:id="@+id/recipes"
         android:icon="@drawable/ic_restaurant_menu"
         android:title="@string/recipes" />
     <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/search"
         android:icon="@drawable/ic_search"
         android:title="Search" />
     <item

@@ -1,16 +1,17 @@
 package com.example.foody.ui.fragments.recipeList
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.foody.R
 import com.example.foody.adapters.RecipeListItemAdapter
 import com.example.foody.databinding.FragmentRecipeListBinding
+import com.example.foody.ui.DetailsActivity
 import com.example.foody.util.NetworkResults
 import com.example.foody.viewmodels.RecipeListFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -47,10 +48,12 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
                 }
                 is NetworkResults.Success -> {
                     if (canNavigate) {
-                        val action =
-                            RecipeListFragmentDirections.actionGlobalDetailsActivity(res.data?.first()!!)
-                        findNavController().navigate(action)
+                        val intent = Intent(requireContext(), DetailsActivity::class.java).apply {
+                            putExtra("recipe", res.data?.first())
+                        }
+                        startActivity(intent)
                         hideProgressDialog()
+                        canNavigate = false
                     }
                 }
             }

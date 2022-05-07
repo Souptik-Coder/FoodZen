@@ -1,18 +1,19 @@
 package com.example.foody.bindingadapters
 
+import android.content.Intent
 import android.os.Build
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.BindingAdapter
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.foody.R
 import com.example.foody.models.Recipe
-import com.example.foody.ui.fragments.recipes.RecipesFragmentDirections
+import com.example.foody.ui.DetailsActivity
 import com.google.android.material.card.MaterialCardView
 
 class RecipesRowLayoutBinding {
@@ -32,9 +33,10 @@ class RecipesRowLayoutBinding {
         @JvmStatic
         fun setOnClickListener(materialCardView: MaterialCardView, recipe: Recipe) {
             materialCardView.setOnClickListener {
-                val action =
-                    RecipesFragmentDirections.actionGlobalDetailsActivity(recipe)
-                materialCardView.findNavController().navigate(action)
+                val intent = Intent(materialCardView.context,DetailsActivity::class.java).apply {
+                    putExtra("recipe", recipe)
+                }
+                materialCardView.context.startActivity(intent)
             }
         }
 
