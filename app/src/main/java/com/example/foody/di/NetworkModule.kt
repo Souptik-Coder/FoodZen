@@ -55,11 +55,11 @@ object NetworkModule {
         RecipeUseCases(
             getRecipes = GetRecipes(repository),
             getRecipeById = GetRecipeById(repository),
-            getRecentRecipes = GetRecentRecipes(repository),
+            getAllRecentlyVisitedRecipes = GetAllRecentlyVisitedRecipes(repository),
             getFavouriteRecipes = GetFavouriteRecipes(repository),
             insertFavouriteRecipes = InsertFavouriteRecipes(repository),
             deleteFavouriteRecipes = DeleteFavouriteRecipes(repository),
-            insertRecentRecipes = InsertRecentRecipes(repository),
+            insertRecentlyVisitedRecipe = InsertRecentlyVisitedRecipe(repository),
             getRecipesByIngredient = GetRecipesByIngredient(repository),
             detectFoodInText = DetectFoodInText(repository),
             getIngredientSuggestion = GetIngredientSuggestion(repository),

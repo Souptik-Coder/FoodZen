@@ -1,6 +1,7 @@
 package com.example.foody.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +21,9 @@ class MainViewModel @Inject constructor(
     private val recipeUseCases: RecipeUseCases,
 ) : AndroidViewModel(application) {
     init {
+        Log.e("MainViewModel","Instance Created")
         getFavouriteRecipes()
+        getAllRecentlyVisitedRecipes()
     }
 
     private val context by lazy { getApplication<MyApplication>().applicationContext }
@@ -28,7 +31,7 @@ class MainViewModel @Inject constructor(
     private val _recipeResponse: MutableLiveData<NetworkResults<List<Recipe>>> = MutableLiveData()
     val recipeResponse: LiveData<NetworkResults<List<Recipe>>> = _recipeResponse
     val favouriteRecipes: MutableLiveData<List<Recipe>> = MutableLiveData()
-    val recentRecipes: MutableLiveData<List<Recipe>> = MutableLiveData(emptyList())
+    val recentlyVisitedRecipes: MutableLiveData<List<Recipe>> = MutableLiveData(emptyList())
 
 
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
@@ -54,5 +57,11 @@ class MainViewModel @Inject constructor(
 
     fun deleteFavouriteRecipe(recipe: Recipe) = viewModelScope.launch {
         recipeUseCases.deleteFavouriteRecipes(recipe)
+    }
+
+    private fun getAllRecentlyVisitedRecipes() = viewModelScope.launch {
+        recipeUseCases.getAllRecentlyVisitedRecipes().collect {
+            recentlyVisitedRecipes.value = it
+        }
     }
 }

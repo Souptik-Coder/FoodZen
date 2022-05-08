@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -27,7 +28,7 @@ import java.io.OutputStream
 @AndroidEntryPoint
 class RecipeCardFragment : Fragment(R.layout.fragment_recipe_card) {
     private lateinit var binding: FragmentRecipeCardBinding
-    private val recipeCardViewModel by viewModels<RecipeCardViewModel>()
+    private val recipeCardViewModel by activityViewModels<RecipeCardViewModel>()
     private var recipeId: Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

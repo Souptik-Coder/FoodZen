@@ -2,6 +2,7 @@ package com.example.foody.ui
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,11 +11,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.foody.R
 import com.example.foody.databinding.ActivityMainBinding
+import com.example.foody.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         findNavController(R.id.nav_host_fragment).handleDeepLink(intent)

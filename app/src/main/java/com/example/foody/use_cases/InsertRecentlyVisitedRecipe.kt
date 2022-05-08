@@ -3,10 +3,10 @@ package com.example.foody.use_cases
 import com.example.foody.data.repositories.Repository
 import com.example.foody.models.Recipe
 
-class InsertRecentRecipes(
+class InsertRecentlyVisitedRecipe(
     private val repository: Repository
 ) {
-    suspend operator fun invoke(recipes:List<Recipe>){
-        repository.local.insertAllRecentRecipes(recipes)
+    suspend operator fun invoke(recipe: Recipe) {
+        repository.local.insertRecentlyVisitedRecipe(recipe)
     }
 }

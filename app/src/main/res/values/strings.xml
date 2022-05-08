@@ -60,11 +60,11 @@
     <string name="server_error_occurred">Server error occurred</string>
     <string name="no_recipe_found">No recipe found with the given filters\nRemove some filters and try again</string>
     <string name="recipe_card_not_found">No recipe card found for this id</string>
-    <string name="link_share_message">Take a look at \"%s\" in FoodZen app\n\n%s\n\n*Link only work if FoodZen app is installed in your device</string>
+    <string name="link_share_message">Take a look at \"%s\" in FoodZen app\n\n%s\n\n*Link works if app is installed</string>
     <string name="unknown_error">An error occurred.Please try again later</string>
     <string name="internet_error">Unable to connect to network.Please try again later</string>
     <string name="ingredient_count_text">%d ingredients</string>
-    <string name="recipes_popular">Popular Recipes</string>
+    <string name="recipes_popular">Popular</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

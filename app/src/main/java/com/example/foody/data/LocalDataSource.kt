@@ -18,15 +18,14 @@ class LocalDataSource @Inject constructor(private val db: AppDatabase) {
         db.resultDao().insertFavouriteRecipes(recipe.toFavouriteEntity())
     }
 
-    fun getAllRecentRecipes(): Flow<List<Recipe>> {
-        return db.resultDao().getAllRecentRecipes().map { recentEntityList ->
+    fun getAllRecentlyVisitedRecipes(): Flow<List<Recipe>> {
+        return db.resultDao().getAllRecentlyVisitedRecipes().map { recentEntityList ->
             recentEntityList.map { it.toRecipe() }
         }
     }
 
-    suspend fun insertAllRecentRecipes(recipes: List<Recipe>) {
-        db.resultDao().deleteAllRecentRecipes()
-        db.resultDao().insertAllRecentRecipes(recipes.map { it.toRecentEntity() })
+    suspend fun insertRecentlyVisitedRecipe(recipe: Recipe) {
+        db.resultDao().insertRecentlyVisitedRecipe(recipe.toRecentEntity())
     }
 
     suspend fun deleteFavouriteRecipe(recipe: Recipe) {

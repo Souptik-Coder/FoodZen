@@ -4,14 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foody.databinding.ReceipesRowLayoutBinding
-import com.example.foody.models.RecipeList
 import com.example.foody.models.Recipe
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
     private var recipes = emptyList<Recipe>()
+    private var onItemClickListener: ((Recipe) -> Unit)? = null
 
-    class ViewHolder(private val binding: ReceipesRowLayoutBinding) :
+    inner class ViewHolder(private val binding: ReceipesRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(recipes[adapterPosition])
+            }
+        }
+
         fun bind(recipe: Recipe) {
             binding.result = recipe
             binding.executePendingBindings()
@@ -35,11 +41,15 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = recipes.size
 
-    fun setData(recipes:List<Recipe>) {
+    fun setData(recipes: List<Recipe>) {
         this.recipes = recipes
 //        val recipesDiffUtil = RecipesDiffUtil(newData.results, recipes)
 //        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
 //        diffUtilResult.dispatchUpdatesTo(this)
         notifyDataSetChanged()
+    }
+
+    fun setOnClickListener(onItemClickListener: ((Recipe) -> Unit)) {
+        this.onItemClickListener = onItemClickListener
     }
 }

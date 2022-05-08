@@ -20,6 +20,9 @@
             android:name="id"
             android:defaultValue="-1"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_recipesFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <dialog
         android:id="@+id/recipesBottomSheet"
@@ -30,4 +33,13 @@
             android:id="@+id/action_recipesBottomSheet_to_recipesFragment"
             app:destination="@id/recipesFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.foody.ui.screens.recipeDetails.DetailsFragment"
+        android:label="Recipe details"
+        tools:layout="@layout/activity_details" >
+        <argument
+            android:name="recipe"
+            app:argType="com.example.foody.models.Recipe" />
+    </fragment>
 </navigation>

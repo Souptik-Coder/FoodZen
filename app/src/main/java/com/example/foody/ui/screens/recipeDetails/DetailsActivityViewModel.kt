@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.models.AnalyzedInstructionItem
+import com.example.foody.models.Recipe
 import com.example.foody.use_cases.RecipeUseCases
 import com.example.foody.util.NetworkResults
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,12 +14,16 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsActivityViewModel @Inject constructor(
     private val recipeUseCases: RecipeUseCases
-):ViewModel() {
+) : ViewModel() {
     val analyzedInstructionResponse =
         MutableLiveData<NetworkResults<List<AnalyzedInstructionItem>>>()
 
     fun getAnalyzedInstructions(id: Int) = viewModelScope.launch {
         analyzedInstructionResponse.value = NetworkResults.Loading()
         analyzedInstructionResponse.value = recipeUseCases.getAnalyzedInstruction(id)
+    }
+
+    fun insertRecentlyVisitedRecipe(recipe: Recipe)=viewModelScope.launch {
+        recipeUseCases.insertRecentlyVisitedRecipe(recipe)
     }
 }

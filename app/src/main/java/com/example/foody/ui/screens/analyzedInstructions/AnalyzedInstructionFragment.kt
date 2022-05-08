@@ -3,6 +3,7 @@ package com.example.foody.ui.screens.analyzedInstructions
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.foody.R
@@ -29,6 +30,10 @@ class AnalyzedInstructionFragment : Fragment(R.layout.fragment_analyzed_instruct
             viewModel.getAnalyzedInstructions(recipe.id)
         else
             adapter.setData(recipe.analyzedInstruction.steps)
+
+        binding.retryBtn.setOnClickListener {
+            viewModel.getAnalyzedInstructions(recipe.id)
+        }
     }
 
     private fun setUpRecyclerView() {
@@ -38,20 +43,35 @@ class AnalyzedInstructionFragment : Fragment(R.layout.fragment_analyzed_instruct
     private fun setUpDataObservers() {
         viewModel.analyzedInstructionResponse.observe(viewLifecycleOwner) { res ->
             when (res) {
-                is NetworkResults.Error -> Toast.makeText(
-                    requireContext(),
-                    res.messageResId!!,
-                    Toast.LENGTH_LONG
-                ).show()
-                is NetworkResults.Loading -> Toast.makeText(
-                    requireContext(),
-                    "Loading",
-                    Toast.LENGTH_LONG
-                ).show()
+                is NetworkResults.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        res.messageResId!!,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    binding.progressBar.visibility = View.GONE
+                    showError(res.messageResId)
+                }
+                is NetworkResults.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    hideError()
+                }
                 is NetworkResults.Success -> {
+                    //Todo Handle empty analyzed instructions
                     adapter.setData(res.data?.first()!!.steps)
+                    binding.progressBar.visibility = View.GONE
+                    hideError()
                 }
             }
         }
+    }
+
+    private fun showError(@StringRes messageResId: Int) {
+        binding.errorLayout.visibility = View.VISIBLE
+        binding.errorTextView.text = getString(messageResId)
+    }
+
+    private fun hideError() {
+        binding.errorLayout.visibility = View.INVISIBLE
     }
 }

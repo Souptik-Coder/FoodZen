@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_searchFragment_to_searchByIngredientFragment"
             app:destination="@id/searchByIngredientFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchByIngredientFragment"
@@ -31,5 +34,17 @@
         <argument
             android:name="recipeListItems"
             app:argType="com.example.foody.models.RecipeListItem[]" />
+        <action
+            android:id="@+id/action_recipeListFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.foody.ui.screens.recipeDetails.DetailsFragment"
+        android:label="Recipe details"
+        tools:layout="@layout/activity_details" >
+        <argument
+            android:name="recipe"
+            app:argType="com.example.foody.models.Recipe" />
     </fragment>
 </navigation>

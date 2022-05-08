@@ -3,19 +3,22 @@ package com.example.foody.ui.screens.recipeDetails
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.activity.viewModels
+import android.view.View
 import androidx.annotation.ColorRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.example.foody.R
 import com.example.foody.adapters.PagerAdapter
 import com.example.foody.databinding.ActivityDetailsBinding
 import com.example.foody.models.Recipe
 import com.example.foody.ui.screens.analyzedInstructions.AnalyzedInstructionFragment
 import com.example.foody.ui.screens.ingredients.IngredientsFragment
-import com.example.foody.ui.screens.instructions.InstructionsFragment
+import com.example.foody.ui.screens.moreInfo.InfoFragment
 import com.example.foody.ui.screens.overview.OverviewFragment
 import com.example.foody.util.NetworkResults
 import com.example.foody.viewmodels.MainViewModel
@@ -23,39 +26,38 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class DetailsActivity : AppCompatActivity() {
-
-    private val mainViewModel by viewModels<MainViewModel>()
+class DetailsFragment : Fragment(R.layout.activity_details) {
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val viewModel: DetailsActivityViewModel by viewModels()
     private lateinit var menuItem: MenuItem
     private var isFavourite = false
     private lateinit var binding: ActivityDetailsBinding
     private lateinit var currentRecipe: Recipe
+    private val args by navArgs<DetailsFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setHasOptionsMenu(true)
+    }
 
-        setSupportActionBar(binding.toolbar)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = ActivityDetailsBinding.bind(view)
         setUpDataObserver()
-        binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        currentRecipe = intent.getParcelableExtra("recipe")!!
+        currentRecipe = args.recipe
+        viewModel.insertRecentlyVisitedRecipe(currentRecipe)
 
         val fragments = ArrayList<Fragment>()
         fragments.add(OverviewFragment())
         fragments.add(IngredientsFragment())
         fragments.add(AnalyzedInstructionFragment())
-        fragments.add(InstructionsFragment())
+        fragments.add(InfoFragment())
 
         val title = ArrayList<String>()
         title.add("Overview")
         title.add("Ingredients")
-        title.add("Instructions")
+        title.add("Steps")
         title.add("More Info")
 
         val resultBundle = Bundle()
@@ -64,7 +66,7 @@ class DetailsActivity : AppCompatActivity() {
         val pagerAdapter = PagerAdapter(
             resultBundle,
             fragments,
-            this
+            requireActivity()
         )
 
         binding.viewPager2.adapter = pagerAdapter
@@ -75,7 +77,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun setUpDataObserver() {
-        viewModel.analyzedInstructionResponse.observe(this) { res ->
+        viewModel.analyzedInstructionResponse.observe(viewLifecycleOwner) { res ->
             when (res) {
                 is NetworkResults.Error -> Unit //Handled by fragment
                 is NetworkResults.Loading -> Unit //Handled by fragment
@@ -93,18 +95,17 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
             R.id.share -> {
                 shareRecipeLink()
             }
             R.id.favourite -> {
-                if (isFavourite.not())
+                if (isFavourite.not()) {
                     saveAndMarkAsFavourite(menuItem)
-                else
+                    isFavourite = true
+                } else {
                     deleteAndUnmarkedAsFavourite(menuItem)
+                    isFavourite = false
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -136,12 +137,13 @@ class DetailsActivity : AppCompatActivity() {
         Snackbar.make(binding.root, "Recipe added to favourite", Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.details_activity_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.details_activity_menu, menu)
         menuItem = menu.findItem(R.id.favourite)
         mainViewModel.favouriteRecipes.observe(this) { favourites ->
-            favourites.forEach {
-                if (it.id == currentRecipe.id) {
+            favourites.forEach { recipe ->
+                if (recipe.id == currentRecipe.id) {
                     isFavourite = true
                     changeMenuItemColor(
                         menuItem,
@@ -150,11 +152,10 @@ class DetailsActivity : AppCompatActivity() {
                 }
             }
         }
-        return true
     }
 
     private fun changeMenuItemColor(menuItem: MenuItem, @ColorRes colorResId: Int) {
-        menuItem.icon.setTint(ContextCompat.getColor(this, colorResId))
+        menuItem.icon.setTint(ContextCompat.getColor(requireContext(), colorResId))
     }
 
     override fun onDestroy() {

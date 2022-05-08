@@ -1,10 +1,10 @@
 package com.example.foody.ui.screens.recipes
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
@@ -15,7 +15,6 @@ import com.example.foody.adapters.RecipesAdapter
 import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.databinding.FragmentRecipesBinding
 import com.example.foody.models.Recipe
-import com.example.foody.ui.screens.recipeDetails.DetailsActivity
 import com.example.foody.util.NetworkResults
 import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -32,7 +31,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     private val isDeepLinkRequested by lazy { args.id != -1 }
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
-    private val mainViewModel by viewModels<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val recipesViewModel by viewModels<RecipesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,11 +95,11 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     }
 
     private fun handleDeepLink(response: NetworkResults<List<Recipe>>) {
-        val intent = Intent(requireContext(), DetailsActivity::class.java).apply {
+        /*val intent = Intent(requireContext(), DetailsActivity::class.java).apply {
             putExtra("recipe", response.data?.first())
         }
         startActivity(intent)
-        requireActivity().finish()
+        requireActivity().finish()*/0
     }
 
     private fun showSnackBar(message: String) {
@@ -140,6 +139,10 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     }
 
     private fun setUpRecyclerView() {
+        recipesAdapter.setOnClickListener {
+            val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsFragment(it)
+            findNavController().navigate(action)
+        }
         binding.shimmerRecyclerView.apply {
             adapter = recipesAdapter
             layoutManager = LinearLayoutManager(requireContext())
