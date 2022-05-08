@@ -15,7 +15,7 @@ class AnalyzedInstructionViewModel @Inject constructor(
     private val recipeUseCases: RecipeUseCases
 ) : ViewModel() {
     val analyzedInstructionResponse =
-        MutableLiveData<NetworkResults<List<AnalyzedInstructionItem>>>()
+        MutableLiveData<NetworkResults<AnalyzedInstructionItem>>()
 
     fun getAnalyzedInstructions(id: Int) = viewModelScope.launch {
         analyzedInstructionResponse.value = NetworkResults.Loading()

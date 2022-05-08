@@ -1,6 +1,5 @@
 package com.example.foody.ui.screens.recipeList
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -48,7 +47,10 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
                 }
                 is NetworkResults.Success -> {
                     if (canNavigate) {
-                        val action=RecipeListFragmentDirections.actionRecipeListFragmentToDetailsFragment(res.data?.first()!!)
+                        val action =
+                            RecipeListFragmentDirections.actionRecipeListFragmentToDetailsFragment(
+                                res.data!!
+                            )
                         findNavController().navigate(action)
                         hideProgressDialog()
                         canNavigate = false

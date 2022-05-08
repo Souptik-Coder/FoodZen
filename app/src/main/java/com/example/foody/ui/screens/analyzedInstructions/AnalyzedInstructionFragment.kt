@@ -5,19 +5,19 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.foody.R
 import com.example.foody.adapters.AnalyzedInstructionAdapter
 import com.example.foody.databinding.FragmentAnalyzedInstructionBinding
 import com.example.foody.models.Recipe
-import com.example.foody.ui.screens.recipeDetails.DetailsActivityViewModel
+import com.example.foody.ui.screens.recipeDetails.DetailsFragmentViewModel
 import com.example.foody.util.NetworkResults
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AnalyzedInstructionFragment : Fragment(R.layout.fragment_analyzed_instruction) {
     private lateinit var binding: FragmentAnalyzedInstructionBinding
-    private val viewModel: DetailsActivityViewModel by activityViewModels()
+    private val viewModel: DetailsFragmentViewModel by viewModels(ownerProducer = { requireParentFragment() })
     private val adapter by lazy { AnalyzedInstructionAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,8 +57,7 @@ class AnalyzedInstructionFragment : Fragment(R.layout.fragment_analyzed_instruct
                     hideError()
                 }
                 is NetworkResults.Success -> {
-                    //Todo Handle empty analyzed instructions
-                    adapter.setData(res.data?.first()!!.steps)
+                    adapter.setData(res.data!!.steps)
                     binding.progressBar.visibility = View.GONE
                     hideError()
                 }

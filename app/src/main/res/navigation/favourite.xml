@@ -17,7 +17,7 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.foody.ui.screens.recipeDetails.DetailsFragment"
         android:label="Recipe details"
-        tools:layout="@layout/activity_details" >
+        tools:layout="@layout/fragment_details" >
         <argument
             android:name="recipe"
             app:argType="com.example.foody.models.Recipe" />

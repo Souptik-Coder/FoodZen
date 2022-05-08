@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.foody.R
 import com.example.foody.adapters.PagerAdapter
-import com.example.foody.databinding.ActivityDetailsBinding
+import com.example.foody.databinding.FragmentDetailsBinding
 import com.example.foody.models.Recipe
 import com.example.foody.ui.screens.analyzedInstructions.AnalyzedInstructionFragment
 import com.example.foody.ui.screens.ingredients.IngredientsFragment
@@ -27,12 +27,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment(R.layout.activity_details) {
+class DetailsFragment : Fragment(R.layout.fragment_details) {
     private val mainViewModel by activityViewModels<MainViewModel>()
-    private val viewModel: DetailsActivityViewModel by viewModels()
+    private val viewModel: DetailsFragmentViewModel by viewModels()
     private lateinit var menuItem: MenuItem
     private var isFavourite = false
-    private lateinit var binding: ActivityDetailsBinding
+    private lateinit var binding: FragmentDetailsBinding
     private lateinit var currentRecipe: Recipe
     private val args by navArgs<DetailsFragmentArgs>()
 
@@ -43,10 +43,10 @@ class DetailsFragment : Fragment(R.layout.activity_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = ActivityDetailsBinding.bind(view)
+        binding = FragmentDetailsBinding.bind(view)
         setUpDataObserver()
         currentRecipe = args.recipe
-        viewModel.insertRecentlyVisitedRecipe(currentRecipe)
+        viewModel.insertOrUpdateRecentlyVisitedRecipe(currentRecipe)
 
         val fragments = ArrayList<Fragment>()
         fragments.add(OverviewFragment())
@@ -66,7 +66,7 @@ class DetailsFragment : Fragment(R.layout.activity_details) {
         val pagerAdapter = PagerAdapter(
             resultBundle,
             fragments,
-            requireActivity()
+            this
         )
 
         binding.viewPager2.adapter = pagerAdapter
@@ -79,14 +79,15 @@ class DetailsFragment : Fragment(R.layout.activity_details) {
     private fun setUpDataObserver() {
         viewModel.analyzedInstructionResponse.observe(viewLifecycleOwner) { res ->
             when (res) {
-                is NetworkResults.Error -> Unit //Handled by fragment
-                is NetworkResults.Loading -> Unit //Handled by fragment
+                is NetworkResults.Error -> Unit //Handled by instruction fragment
+                is NetworkResults.Loading -> Unit //Handled by instruction fragment
                 is NetworkResults.Success -> {
+                    val analyzedInstruction = res.data
+                    currentRecipe =
+                        currentRecipe.copy(analyzedInstruction = analyzedInstruction)
+                    viewModel.insertOrUpdateRecentlyVisitedRecipe(currentRecipe)
                     if (isFavourite) {
-                        val analyzedInstruction = res.data?.first()
-                        currentRecipe =
-                            currentRecipe.copy(analyzedInstruction = analyzedInstruction)
-                        mainViewModel.insertFavouriteRecipe(currentRecipe)
+                        mainViewModel.insertOrUpdateFavouriteRecipe(currentRecipe)
                     }
                 }
             }
@@ -132,7 +133,7 @@ class DetailsFragment : Fragment(R.layout.activity_details) {
     }
 
     private fun saveAndMarkAsFavourite(menuItem: MenuItem) {
-        mainViewModel.insertFavouriteRecipe(currentRecipe)
+        mainViewModel.insertOrUpdateFavouriteRecipe(currentRecipe)
         changeMenuItemColor(menuItem, R.color.yellow)
         Snackbar.make(binding.root, "Recipe added to favourite", Snackbar.LENGTH_SHORT).show()
     }

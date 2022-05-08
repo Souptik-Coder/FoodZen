@@ -1,9 +1,12 @@
 package com.example.foody.ui.screens.recipes
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foody.data.repositories.DataStoreRepository
+import com.example.foody.models.Recipe
+import com.example.foody.use_cases.RecipeUseCases
 import com.example.foody.util.Constants.API_KEY
 import com.example.foody.util.Constants.DEFAULT_RECIPES_NUMBER
 import com.example.foody.util.Constants.DEFAULT_SORT
@@ -18,18 +21,31 @@ import com.example.foody.util.Constants.QUERY_NUMBER
 import com.example.foody.util.Constants.QUERY_SORT
 import com.example.foody.util.Constants.QUERY_SORT_DIRECTIONS
 import com.example.foody.util.Constants.QUERY_TYPE
+import com.example.foody.util.NetworkResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
-    application: Application,
+    private val recipeUseCases: RecipeUseCases,
     private val dataStoreRepository: DataStoreRepository
-) : AndroidViewModel(application) {
+) : ViewModel() {
+    init {
+        Log.e("RecipesViewModel", "Instance Created")
+    }
 
-    val readRecipeFilterParameter = dataStoreRepository.readRecipeFilterParameter
+    val recipeByIdResponse = MutableLiveData<NetworkResults<Recipe>>()
+    val topRecipeResponse = MutableLiveData<NetworkResults<List<Recipe>>>()
+    val readRecipeFilterParameter =
+        dataStoreRepository.readRecipeFilterParameter.distinctUntilChanged()
+
+    init {
+        observeRecipeParameter()
+    }
 
     fun saveMealAndDietType(
         recipeFilterParameters: DataStoreRepository.RecipeFilterParameters
@@ -37,7 +53,7 @@ class RecipesViewModel @Inject constructor(
         dataStoreRepository.saveRecipeFilterParameters(recipeFilterParameters)
     }
 
-    fun applyQueries(recipeFilterParameters: DataStoreRepository.RecipeFilterParameters):
+    private fun applyQueries(recipeFilterParameters: DataStoreRepository.RecipeFilterParameters):
             HashMap<String, String> {
         val queries = HashMap<String, String>()
         queries[QUERY_API_KEY] = API_KEY
@@ -51,5 +67,21 @@ class RecipesViewModel @Inject constructor(
         queries[QUERY_SORT] = DEFAULT_SORT
         queries[QUERY_SORT_DIRECTIONS] = DEFAULT_SORT_DIRECTIONS
         return queries
+    }
+
+    fun getRecipeById(id: Int) = viewModelScope.launch {
+        recipeByIdResponse.value = NetworkResults.Loading()
+        recipeByIdResponse.value = recipeUseCases.getRecipeById(id)
+    }
+
+    private fun getTopRecipes(queries: Map<String, String>) = viewModelScope.launch {
+        topRecipeResponse.value = NetworkResults.Loading()
+        topRecipeResponse.value = recipeUseCases.getRecipes(queries)
+    }
+
+    fun observeRecipeParameter() = viewModelScope.launch {
+        readRecipeFilterParameter.collectLatest {
+            getTopRecipes(applyQueries(it))
+        }
     }
 }

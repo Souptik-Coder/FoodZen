@@ -15,8 +15,8 @@ import javax.inject.Inject
 class RecipeListFragmentViewModel @Inject constructor(
     private val recipeUseCases: RecipeUseCases,
 ) : ViewModel() {
-    private val _recipeResponse: MutableLiveData<NetworkResults<List<Recipe>>> = MutableLiveData()
-    val recipeResponse: LiveData<NetworkResults<List<Recipe>>> = _recipeResponse
+    private val _recipeResponse: MutableLiveData<NetworkResults<Recipe>> = MutableLiveData()
+    val recipeResponse: LiveData<NetworkResults<Recipe>> = _recipeResponse
 
     fun getRecipeById(id: Int) = viewModelScope.launch {
         _recipeResponse.value = NetworkResults.Loading()

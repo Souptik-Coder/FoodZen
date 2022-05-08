@@ -18,7 +18,8 @@ class SearchFragmentViewModel @Inject constructor(
     private val recipeUseCases: RecipeUseCases
 ) : ViewModel() {
     val recipeSuggestionResponse = MutableLiveData<NetworkResults<List<RecipeSuggestionItem>>>()
-    val recipeResponse = MutableLiveData<NetworkResults<List<Recipe>>>()
+    val recipeResponse = MutableLiveData<NetworkResults<Recipe>>()
+
     private var recipeSuggestionJob: Job? = null
 
     fun getRecipeSuggestions(query: String) {

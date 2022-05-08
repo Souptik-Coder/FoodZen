@@ -9,11 +9,15 @@ import java.io.IOException
 class GetRecipeById(
     private val repository: Repository
 ) {
-    suspend operator fun invoke(id: Int): NetworkResults<List<Recipe>> {
+    suspend operator fun invoke(id: Int): NetworkResults<Recipe> {
         return try {
             val response = repository.remote.getRecipesById(id)
             if (response.isSuccessful) {
-                NetworkResults.Success(listOf(response.body()!!))
+                val recipe=response.body()
+                if (recipe!=null)
+                NetworkResults.Success(recipe)
+                else
+                    NetworkResults.Error(R.string.load_recipe_details_error)
             } else {
                 NetworkResults.Error(R.string.unknown_error)
             }

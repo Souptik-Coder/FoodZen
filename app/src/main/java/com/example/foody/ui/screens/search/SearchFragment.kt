@@ -73,7 +73,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 is NetworkResults.Success -> {
                     if (canNavigate) {
                         val action =
-                            SearchFragmentDirections.actionSearchFragmentToDetailsFragment(res.data?.first()!!)
+                            SearchFragmentDirections.actionSearchFragmentToDetailsFragment(res.data!!)
                         findNavController().navigate(action)
                         canNavigate = false
                     }

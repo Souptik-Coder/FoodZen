@@ -9,11 +9,17 @@ import java.io.IOException
 class GetAnalyzedInstruction(
     private val repository: Repository
 ) {
-    suspend operator fun invoke(id: Int): NetworkResults<List<AnalyzedInstructionItem>> {
-        return try {
+    suspend operator fun invoke(id: Int): NetworkResults<AnalyzedInstructionItem> {
+       return  try {
             val response = repository.remote.getAnalyzedInstruction(id)
-            if (response.isSuccessful)
+            if (response.isSuccessful) {
                 NetworkResults.Success(response.body()!!)
+                val analyzedInstructionItems=response.body()
+                if (analyzedInstructionItems.isNullOrEmpty())
+                    NetworkResults.Error(R.string.empty_analyzed_instruction_error_message)
+                else
+                    NetworkResults.Success(analyzedInstructionItems.first())
+            }
             else {
                 NetworkResults.Error(R.string.unknown_error)
             }

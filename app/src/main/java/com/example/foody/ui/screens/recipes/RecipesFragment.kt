@@ -5,22 +5,17 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foody.R
 import com.example.foody.adapters.RecipesAdapter
-import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.databinding.FragmentRecipesBinding
 import com.example.foody.models.Recipe
 import com.example.foody.util.NetworkResults
 import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment(R.layout.fragment_recipes) {
@@ -28,30 +23,19 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     private val TAG = "RecipesFragment"
 
     private val args by navArgs<RecipesFragmentArgs>() //receives id only when deeplink is requested else -1
-    private val isDeepLinkRequested by lazy { args.id != -1 }
+    private var isDeepLinkRequested = false
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
     private val mainViewModel by activityViewModels<MainViewModel>()
-    private val recipesViewModel by viewModels<RecipesViewModel>()
+    private val recipesViewModel by activityViewModels<RecipesViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            if (isDeepLinkRequested) {
-                mainViewModel.getRecipeById(args.id)
-            } else {
-                mainViewModel.viewModelScope.launch {
-                    recipesViewModel.readRecipeFilterParameter.collectLatest {
-                        requestApiData(it)
-                    }
-                }
-            }
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipesBinding.bind(view)
+        isDeepLinkRequested = args.id != 1
+        if (isDeepLinkRequested)
+            recipesViewModel.getRecipeById(args.id)
         setUpRecyclerView()
         setUpDataObservers()
         binding.recipesFab.setOnClickListener {
@@ -59,12 +43,8 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
         }
     }
 
-    private fun requestApiData(recipeFilterParameters: DataStoreRepository.RecipeFilterParameters) {
-        mainViewModel.getRecipes(recipesViewModel.applyQueries(recipeFilterParameters))
-    }
-
     private fun setUpDataObservers() {
-        mainViewModel.recipeResponse.observe(viewLifecycleOwner) { response ->
+        recipesViewModel.topRecipeResponse.observe(viewLifecycleOwner) { response ->
             Log.d(TAG, "Recipe Response received as LiveData")
             when (response) {
                 is NetworkResults.Loading -> {
@@ -72,34 +52,40 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
                     showShimmerEffect()
                 }
                 is NetworkResults.Success -> {
-                    if (isDeepLinkRequested) {
-                        handleDeepLink(response)
-                    } else {
-                        hideShimmerEffect()
-                        hideErrorTextViewAndImageView()
-                        recipesAdapter.setData(response.data!!)
-                    }
+                    hideShimmerEffect()
+                    hideErrorTextViewAndImageView()
+                    recipesAdapter.setData(response.data!!)
                 }
                 is NetworkResults.Error -> {
                     hideShimmerEffect()
-                    if (response.data != null) {
-                        showSnackBar(getString(response.messageResId!!))
-                        recipesAdapter.setData(response.data)
-                    } else {
-                        showErrorTextViewAndImageView()
-                        binding.errorTextView.text = getText(response.messageResId!!)
-                    }
+                    showErrorTextViewAndImageView()
+                    binding.errorTextView.text = getText(response.messageResId!!)
+                }
+            }
+        }
+        recipesViewModel.recipeByIdResponse.observe(viewLifecycleOwner) { res ->
+            when (res) {
+                is NetworkResults.Error -> {
+                    hideShimmerEffect()
+                    showErrorTextViewAndImageView()
+                    binding.errorTextView.text = getText(res.messageResId!!)
+                }
+                is NetworkResults.Loading -> {
+                    hideErrorTextViewAndImageView()
+                    showShimmerEffect()
+                }
+                is NetworkResults.Success -> {
+                    hideShimmerEffect()
+                    hideErrorTextViewAndImageView()
+                    handleDeepLink(res.data!!)
                 }
             }
         }
     }
 
-    private fun handleDeepLink(response: NetworkResults<List<Recipe>>) {
-        /*val intent = Intent(requireContext(), DetailsActivity::class.java).apply {
-            putExtra("recipe", response.data?.first())
-        }
-        startActivity(intent)
-        requireActivity().finish()*/0
+    private fun handleDeepLink(recipe: Recipe) {
+        val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsFragment(recipe)
+        findNavController().navigate(action)
     }
 
     private fun showSnackBar(message: String) {
