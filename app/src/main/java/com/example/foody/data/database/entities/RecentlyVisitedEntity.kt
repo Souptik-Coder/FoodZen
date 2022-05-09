@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.foody.models.Recipe
 
-@Entity(tableName = "RecentlyVisited")
+@Entity(tableName = "recently_visited")
 data class RecentlyVisitedEntity(
     @Embedded(prefix = "_") val recipe: Recipe,
     @ColumnInfo(name = "timeInMillis") val timeInMillis: Long = System.currentTimeMillis(),

@@ -1,7 +1,6 @@
 package com.example.foody.ui.screens.recipes
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,7 +32,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipesBinding.bind(view)
-        isDeepLinkRequested = args.id != 1
+        isDeepLinkRequested = args.id != -1
         if (isDeepLinkRequested)
             recipesViewModel.getRecipeById(args.id)
         setUpRecyclerView()
@@ -45,21 +44,16 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
 
     private fun setUpDataObservers() {
         recipesViewModel.topRecipeResponse.observe(viewLifecycleOwner) { response ->
-            Log.d(TAG, "Recipe Response received as LiveData")
             when (response) {
                 is NetworkResults.Loading -> {
-                    hideErrorTextViewAndImageView()
                     showShimmerEffect()
                 }
                 is NetworkResults.Success -> {
                     hideShimmerEffect()
-                    hideErrorTextViewAndImageView()
-                    recipesAdapter.setData(response.data!!)
                 }
                 is NetworkResults.Error -> {
                     hideShimmerEffect()
-                    showErrorTextViewAndImageView()
-                    binding.errorTextView.text = getText(response.messageResId!!)
+                    showSnackBar(getString(response.messageResId!!))
                 }
             }
         }
@@ -67,19 +61,21 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
             when (res) {
                 is NetworkResults.Error -> {
                     hideShimmerEffect()
-                    showErrorTextViewAndImageView()
-                    binding.errorTextView.text = getText(res.messageResId!!)
+                    showSnackBar(getString(res.messageResId!!))
                 }
                 is NetworkResults.Loading -> {
-                    hideErrorTextViewAndImageView()
                     showShimmerEffect()
                 }
                 is NetworkResults.Success -> {
                     hideShimmerEffect()
-                    hideErrorTextViewAndImageView()
                     handleDeepLink(res.data!!)
                 }
             }
+        }
+
+        recipesViewModel.savedTopRecipes.observe(viewLifecycleOwner) {
+            hideShimmerEffect()
+            recipesAdapter.setData(it)
         }
     }
 

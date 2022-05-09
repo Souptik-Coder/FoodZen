@@ -47,7 +47,7 @@ object NetworkModule {
         Room.databaseBuilder(
             context,
             AppDatabase::class.java, "Recipes Database"
-        ).build()
+        ).createFromAsset("database/FoodZen.db").build()
 
     @Provides
     @Singleton
@@ -64,7 +64,9 @@ object NetworkModule {
             detectFoodInText = DetectFoodInText(repository),
             getIngredientSuggestion = GetIngredientSuggestion(repository),
             getRecipeSuggestion = GetRecipesSuggestion(repository),
-            getAnalyzedInstruction = GetAnalyzedInstruction(repository)
+            getAnalyzedInstruction = GetAnalyzedInstruction(repository),
+            insertAllTopRecipes = InsertAllTopRecipes(repository),
+            getAllTopRecipes = GetAllTopRecipes(repository)
         )
 
     @Provides

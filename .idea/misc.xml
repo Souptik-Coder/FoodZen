@@ -11,13 +11,16 @@
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_instructions.xml" value="0.12635869565217392" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_overview.xml" value="0.10666666666666667" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_recipe_list.xml" value="0.1578125" />
+        <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_recipes.xml" value="0.12635869565217392" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_search.xml" value="0.22" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_search_by_ingredient.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/ingredient_suggestion_layout.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/ingredients_row_layout.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/instruction_row_layout.xml" value="0.22" />
+        <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/load_more_btn.xml" value="0.22" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/receipes_row_layout.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/recipe_list_item.xml" value="0.22" />
+        <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/recipes_bottom_sheet.xml" value="0.22" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/Foody/app/src/main/res/drawable/gradient_overlay.xml" value="0.17395833333333333" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/Foody/app/src/main/res/drawable/ic_check.xml" value="0.17395833333333333" />

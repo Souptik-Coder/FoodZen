@@ -31,7 +31,7 @@
     <string name="caribbean">Caribbean</string>
     <string name="chinese">Chinese</string>
     <string name="indian">Indian</string>
-    <string name="exclude_ingredients">Exclude Ingredients</string>
+    <string name="exclude_intolerances">Exclude Intolerances</string>
     <string name="dairy">Dairy</string>
     <string name="egg">Egg</string>
     <string name="grain">Grain</string>
@@ -49,7 +49,7 @@
     <string name="dairy_free">Dairy Free</string>
     <string name="healthy">Healthy</string>
     <string name="no_internet_connections">No Internet Connections</string>
-    <string name="no_filter">No Filter</string>
+    <string name="no_filter">No Filter</string> <!-- Also change in Constants.kt -->
     <string name="ACTION_SHOW_RECIPES">Show Recipes Action</string>
     <string name="share">Share</string>
     <string name="mark_as_favourite">Mark as favourite</string>

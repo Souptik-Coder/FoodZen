@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -39,6 +40,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.e("onActivityResult", "Req code=$requestCode Res code=$resultCode")
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
             val imageBitmap =
                 MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, data?.data)
@@ -134,7 +136,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
 
         viewModel.recipeResponse.observe(viewLifecycleOwner) { res ->
             when (res) {
-                is NetworkResults.Error ->{
+                is NetworkResults.Error -> {
                     showSnackBar(getString(res.messageResId!!))
                     hideProgressDialog()
                 }

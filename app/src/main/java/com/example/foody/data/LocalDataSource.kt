@@ -4,6 +4,7 @@ import com.example.foody.data.database.AppDatabase
 import com.example.foody.data.database.entities.toFavouriteEntity
 import com.example.foody.data.database.entities.toRecentEntity
 import com.example.foody.data.database.entities.toRecipe
+import com.example.foody.data.database.entities.toTopRecipesEntity
 import com.example.foody.models.Recipe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -30,5 +31,16 @@ class LocalDataSource @Inject constructor(private val db: AppDatabase) {
 
     suspend fun deleteFavouriteRecipe(recipe: Recipe) {
         db.resultDao().deleteFromFavourite(recipe.toFavouriteEntity())
+    }
+
+    suspend fun insertAllTopRecipes(topRecipes: List<Recipe>) {
+        db.resultDao().deleteAllTopRecipes()
+        db.resultDao().insertAllTopRecipes(topRecipes.map { it.toTopRecipesEntity() })
+    }
+
+    fun getAllTopRecipes(): Flow<List<Recipe>> {
+        return db.resultDao().getAllTopRecipes().map { topEntityList ->
+            topEntityList.map { it.toRecipe() }
+        }
     }
 }

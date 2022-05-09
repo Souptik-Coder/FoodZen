@@ -9,6 +9,7 @@ import com.example.foody.util.Constants.DEFAULT_CUISINE
 import com.example.foody.util.Constants.DEFAULT_DIET
 import com.example.foody.util.Constants.DEFAULT_INTOLERANCE
 import com.example.foody.util.Constants.DEFAULT_MEAL_TYPE
+import com.example.foody.util.Constants.NO_FILTER
 import com.example.foody.util.Constants.PREFERENCES_DIET_TYPE
 import com.example.foody.util.Constants.PREFERENCES_DIET_TYPE_ID
 import com.example.foody.util.Constants.PREFERENCES_MEAL_TYPE
@@ -18,6 +19,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
@@ -60,8 +62,8 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
         }
     }
 
-    val readRecipeFilterParameter: Flow<RecipeFilterParameters> =
-        dataStore.data.catch { exception ->
+    suspend fun readTopRecipeFilterParameters(): Flow<RecipeFilterParameters> {
+        return dataStore.data.catch { exception ->
             if (exception is IOException)
                 emit(emptyPreferences())
             else
@@ -93,15 +95,16 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
                     selectedIntoleranceTypeId
                 )
             }
+    }
 
     data class RecipeFilterParameters(
-        var selectedMealType: String,
-        var selectedMealTypeId: Int,
-        var selectedDietType: String,
-        var selectedDietTypeId: Int,
-        var selectedCuisineType: String,
-        var selectedCuisineTypeId: Int,
-        var selectedIntoleranceType: String,
-        var selectedIntoleranceTypeId: Int,
+        var selectedMealType: String = NO_FILTER,
+        var selectedMealTypeId: Int = 0,
+        var selectedDietType: String = NO_FILTER,
+        var selectedDietTypeId: Int = 0,
+        var selectedCuisineType: String = NO_FILTER,
+        var selectedCuisineTypeId: Int = 0,
+        var selectedIntoleranceType: String = NO_FILTER,
+        var selectedIntoleranceTypeId: Int = 0,
     )
 }

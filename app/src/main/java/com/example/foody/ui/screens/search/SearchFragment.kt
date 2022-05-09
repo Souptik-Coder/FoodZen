@@ -38,7 +38,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             val action = SearchFragmentDirections.actionSearchFragmentToSearchByIngredientFragment()
             findNavController().navigate(action)
         }
-
+        binding.swipeRefreshLayout.isEnabled = false
     }
 
     private fun setUpRecyclerView() {

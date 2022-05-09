@@ -81,7 +81,7 @@ class SearchByIngredientFragmentViewModel @Inject constructor(
         result.addOnSuccessListener { visionText ->
             detectIngredientInText(visionText.text)
         }
-            .addOnFailureListener { e ->
+            .addOnFailureListener {
                 Toast.makeText(application, R.string.unknown_error, Toast.LENGTH_LONG).show();
             }
     }
