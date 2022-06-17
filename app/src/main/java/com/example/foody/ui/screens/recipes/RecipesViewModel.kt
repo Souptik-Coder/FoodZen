@@ -123,4 +123,9 @@ class RecipesViewModel @Inject constructor(
             topRecipeFilterParameters.value = it
         }
     }
+
+    fun setErrorHandled() {
+        val currentRes = topRecipeResponse.value!!
+        topRecipeResponse.value = NetworkResults.Error(currentRes.messageResId!!, true)
+    }
 }

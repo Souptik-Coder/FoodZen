@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/drawable/gradient_overlay.xml" value="0.101" />
+        <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/drawable/ic_sad.xml" value="0.1625" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/drawable/round.xml" value="0.1" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/activity_details.xml" value="0.22" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/activity_main.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_analyzed_instruction.xml" value="0.22" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_favourite_recipes.xml" value="0.1578125" />
+        <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_info.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_instructions.xml" value="0.12635869565217392" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_overview.xml" value="0.10666666666666667" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/fragment_recipe_list.xml" value="0.1578125" />
@@ -18,6 +21,7 @@
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/ingredients_row_layout.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/instruction_row_layout.xml" value="0.22" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/load_more_btn.xml" value="0.22" />
+        <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/progress_dialog.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/receipes_row_layout.xml" value="0.1578125" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/recipe_list_item.xml" value="0.22" />
         <entry key="..\:/Users/Souptik/AndroidStudioProjects/FoodZen/app/src/main/res/layout/recipes_bottom_sheet.xml" value="0.22" />

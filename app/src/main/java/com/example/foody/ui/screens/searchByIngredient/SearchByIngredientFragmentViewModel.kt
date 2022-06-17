@@ -110,4 +110,9 @@ class SearchByIngredientFragmentViewModel @Inject constructor(
         currentIngredient.value = currentList
     }
 
+    fun setErrorHandled() {
+        val currentRes = _recipeResponse.value!!
+        _recipeResponse.value = NetworkResults.Error(currentRes.messageResId!!, true)
+    }
+
 }

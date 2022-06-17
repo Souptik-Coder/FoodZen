@@ -12,7 +12,6 @@ import com.example.foody.adapters.RecipesAdapter
 import com.example.foody.databinding.FragmentRecipesBinding
 import com.example.foody.models.Recipe
 import com.example.foody.util.NetworkResults
-import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +24,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     private var isDeepLinkRequested = false
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
-    private val mainViewModel by activityViewModels<MainViewModel>()
     private val recipesViewModel by activityViewModels<RecipesViewModel>()
 
 
@@ -53,7 +51,10 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
                 }
                 is NetworkResults.Error -> {
                     hideShimmerEffect()
-                    showSnackBar(getString(response.messageResId!!))
+                    if (!response.isErrorHandled) {
+                        showSnackBar(getString(response.messageResId!!))
+                        recipesViewModel.setErrorHandled()
+                    }
                 }
             }
         }
@@ -96,19 +97,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
         }
         snackBar.show()
     }
-
-    /*private fun showCachedData() {
-        mainViewModel.getAllRecentRecipes()
-        mainViewModel.recentRecipes.observe(viewLifecycleOwner) { cachedData ->
-            if (mainViewModel.recipeResponse.value is NetworkResults.InternetError) {
-                if (cachedData.isNotEmpty()) {
-                    recipesAdapter.setData(RecipeList(cachedData))
-                    hideErrorTextViewAndImageView()
-                } else
-                    showErrorTextViewAndImageView()
-            }
-        }
-    }*/
 
     private fun hideErrorTextViewAndImageView() {
         binding.errorImageView.visibility = View.INVISIBLE

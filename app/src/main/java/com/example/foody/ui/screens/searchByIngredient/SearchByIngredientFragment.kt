@@ -33,7 +33,8 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
     private var canNavigate = false
 
     private var progressDialog: AlertDialog? = null
-    private lateinit var binding: FragmentSearchByIngredientBinding
+    private var _binding: FragmentSearchByIngredientBinding? = null
+    private val binding get() = _binding!!
     private lateinit var suggestionArrayAdapter: IngredientSuggestionArrayAdapter
     private lateinit var ingredientAdapter: SearchByIngredientAdapter
     private val viewModel: SearchByIngredientFragmentViewModel by viewModels()
@@ -52,7 +53,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = FragmentSearchByIngredientBinding.bind(view)
+        _binding = FragmentSearchByIngredientBinding.bind(view)
         setUpRecyclerView()
         setUpAutoCompleteTextView()
         setUpDataObserver()
@@ -110,13 +111,16 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
         viewModel.detectedIngredientResponse.observe(viewLifecycleOwner) { res ->
             when (res) {
                 is NetworkResults.Error -> {
-                    showSnackBar(getString(res.messageResId!!))
-                    hideProgressDialog()
+                    dismissProgressDialog()
+                    if (!res.isErrorHandled) {
+                        showSnackBar(getString(res.messageResId!!))
+                        viewModel.setErrorHandled()
+                    }
                 }
-                is NetworkResults.Loading -> showProgressDialog("Extracting ingredient...")
+                is NetworkResults.Loading -> createProgressDialog("Extracting ingredient...")
                 is NetworkResults.Success -> {
                     viewModel.setCurrentIngredients(res.data!!)
-                    hideProgressDialog()
+                    dismissProgressDialog()
                 }
             }
         }
@@ -138,11 +142,11 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
             when (res) {
                 is NetworkResults.Error -> {
                     showSnackBar(getString(res.messageResId!!))
-                    hideProgressDialog()
+                    dismissProgressDialog()
                 }
-                is NetworkResults.Loading -> showProgressDialog("Loading Recipes...")
+                is NetworkResults.Loading -> createProgressDialog("Loading Recipes...")
                 is NetworkResults.Success -> {
-                    hideProgressDialog()
+                    dismissProgressDialog()
                     if (canNavigate) {
                         val action =
                             SearchByIngredientFragmentDirections.actionSearchByIngredientFragmentToRecipeListFragment(
@@ -156,19 +160,20 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
         }
     }
 
-    private fun showProgressDialog(title: String) {
+    private fun createProgressDialog(title: String) {
         progressDialog = MaterialAlertDialogBuilder(requireContext()).setTitle(title)
             .setView(R.layout.progress_dialog).setCancelable(false).show()
     }
 
-    private fun hideProgressDialog() {
-        progressDialog?.hide()
+    private fun dismissProgressDialog() {
+        progressDialog?.dismiss()
     }
 
     private fun pickImageFromGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
+        val intent = Intent().apply {
+            type = "image/*"
+            action = Intent.ACTION_GET_CONTENT
+        }
         startActivityForResult(
             Intent.createChooser(intent, "Select Picture"),
             REQUEST_IMAGE_PICK
@@ -188,4 +193,8 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

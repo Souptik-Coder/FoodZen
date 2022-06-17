@@ -66,6 +66,6 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
     }
 
     private fun hideProgressDialog() {
-        progressDialog?.hide()
+        progressDialog?.dismiss()
     }
 }
