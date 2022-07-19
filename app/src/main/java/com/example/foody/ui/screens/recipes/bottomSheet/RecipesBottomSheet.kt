@@ -39,7 +39,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val binding = RecipesBottomSheetBinding.bind(view)
 
-        (dialog as BottomSheetDialog).behavior.state = BottomSheetBehavior.STATE_EXPANDED
+//        (dialog as BottomSheetDialog).behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         val NO_FILTER_TEXT = getString(R.string.no_filter)
         var recipeFilterParameters = DataStoreRepository.RecipeFilterParameters(

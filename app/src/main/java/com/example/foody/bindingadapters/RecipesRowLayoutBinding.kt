@@ -37,6 +37,7 @@ class RecipesRowLayoutBinding {
         @JvmStatic
         fun loadImageFromUrl(imageView: ImageView, url: String) {
             Glide.with(imageView).load(url).transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.placeholder)
                 .into(imageView)
         }
 

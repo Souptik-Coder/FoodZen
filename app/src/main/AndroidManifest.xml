@@ -19,10 +19,6 @@
             android:value="ocr" />
 
         <activity
-            android:name=".ui.screens.recipeDetails.DetailsActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashActivityTheme">

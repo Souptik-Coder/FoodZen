@@ -17,8 +17,9 @@ class DetailsFragmentViewModel @Inject constructor(
     private val recipeUseCases: RecipeUseCases
 ) : ViewModel() {
     init {
-        Log.e("DetailsFragmentVM","Instance created")
+        Log.e("DetailsFragmentVM", "Instance created")
     }
+
     val analyzedInstructionResponse =
         MutableLiveData<NetworkResults<AnalyzedInstructionItem>>()
 
@@ -27,7 +28,7 @@ class DetailsFragmentViewModel @Inject constructor(
         analyzedInstructionResponse.value = recipeUseCases.getAnalyzedInstruction(id)
     }
 
-    fun insertOrUpdateRecentlyVisitedRecipe(recipe: Recipe)=viewModelScope.launch {
+    fun insertOrUpdateRecentlyVisitedRecipe(recipe: Recipe) = viewModelScope.launch {
         recipeUseCases.insertRecentlyVisitedRecipe(recipe)
     }
 }
