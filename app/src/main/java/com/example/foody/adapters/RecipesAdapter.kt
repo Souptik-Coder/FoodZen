@@ -2,19 +2,32 @@ package com.example.foody.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foody.databinding.ReceipesRowLayoutBinding
 import com.example.foody.models.Recipe
 
-class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
-    private var recipes = emptyList<Recipe>()
+class RecipesAdapter : ListAdapter<Recipe, RecipesAdapter.ViewHolder>(object :
+    DiffUtil.ItemCallback<Recipe>() {
+    override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
+        return oldItem == newItem
+    }
+
+}) {
+
     private var onItemClickListener: ((Recipe) -> Unit)? = null
 
     inner class ViewHolder(private val binding: ReceipesRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                onItemClickListener?.invoke(recipes[adapterPosition])
+                onItemClickListener?.invoke(getItem(adapterPosition))
             }
         }
 
@@ -36,17 +49,11 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(recipes[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = recipes.size
-
     fun setData(recipes: List<Recipe>) {
-        this.recipes = recipes
-//        val recipesDiffUtil = RecipesDiffUtil(newData.results, recipes)
-//        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
-//        diffUtilResult.dispatchUpdatesTo(this)
-        notifyDataSetChanged()
+        submitList(recipes)
     }
 
     fun setOnClickListener(onItemClickListener: ((Recipe) -> Unit)) {

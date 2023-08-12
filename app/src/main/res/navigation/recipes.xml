@@ -15,7 +15,7 @@
         <deepLink
             android:id="@+id/deepLink"
             app:action="@string/ACTION_SHOW_RECIPES"
-            app:uri="https://smart-liv.com/FoodZen/recipes/{id}" />
+            app:uri="http://app.FoodZen/recipes/{id}" />
         <argument
             android:name="id"
             android:defaultValue="-1"

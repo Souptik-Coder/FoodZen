@@ -13,6 +13,7 @@ import com.example.foody.adapters.RecipeSuggestionArrayAdapter
 import com.example.foody.adapters.RecipesAdapter
 import com.example.foody.databinding.FragmentSearchBinding
 import com.example.foody.util.NetworkResults
+import com.example.foody.util.navigateWithDefaultAnimation
 import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -36,7 +37,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         setUpRecyclerView()
         binding.searchByIngredientBtn.setOnClickListener {
             val action = SearchFragmentDirections.actionSearchFragmentToSearchByIngredientFragment()
-            findNavController().navigate(action)
+            findNavController().navigateWithDefaultAnimation(action)
         }
         binding.swipeRefreshLayout.isEnabled = false
     }
@@ -44,7 +45,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun setUpRecyclerView() {
         recentlyVisitedAdapter.setOnClickListener {
             val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(it)
-            findNavController().navigate(action)
+            findNavController().navigateWithDefaultAnimation(action)
         }
         binding.recyclerView.adapter = recentlyVisitedAdapter
     }
@@ -74,7 +75,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     if (canNavigate) {
                         val action =
                             SearchFragmentDirections.actionSearchFragmentToDetailsFragment(res.data!!)
-                        findNavController().navigate(action)
+                        findNavController().navigateWithDefaultAnimation(action)
                         canNavigate = false
                     }
                     hideProgressDialog()
@@ -115,6 +116,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun hideProgressDialog() {
-        progressDialog?.hide()
+        progressDialog?.dismiss()
     }
 }

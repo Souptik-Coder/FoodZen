@@ -1,17 +1,23 @@
 package com.example.foody.ui.screens.recipes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
 import com.example.foody.R
 import com.example.foody.adapters.RecipesAdapter
 import com.example.foody.databinding.FragmentRecipesBinding
 import com.example.foody.models.Recipe
 import com.example.foody.util.NetworkResults
+import com.example.foody.util.navigateWithDefaultAnimation
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +36,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipesBinding.bind(view)
+
         isDeepLinkRequested = args.id != -1
         if (isDeepLinkRequested)
             recipesViewModel.getRecipeById(args.id)
@@ -45,14 +52,24 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
             when (response) {
                 is NetworkResults.Loading -> {
                     showShimmerEffect()
+                    hideErrorTextViewAndImageView()
                 }
+
                 is NetworkResults.Success -> {
                     hideShimmerEffect()
+                    hideErrorTextViewAndImageView()
                 }
+
                 is NetworkResults.Error -> {
                     hideShimmerEffect()
                     if (!response.isErrorHandled) {
-                        showSnackBar(getString(response.messageResId!!))
+                        if (recipesAdapter.itemCount > 0) {
+                            hideErrorTextViewAndImageView()
+                            showSnackBar(getString(response.messageResId!!))
+                        } else {
+                            showErrorTextViewAndImageView()
+                            binding.errorTextView.setText(response.messageResId!!)
+                        }
                         recipesViewModel.setErrorHandled()
                     }
                 }
@@ -64,9 +81,11 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
                     hideShimmerEffect()
                     showSnackBar(getString(res.messageResId!!))
                 }
+
                 is NetworkResults.Loading -> {
                     showShimmerEffect()
                 }
+
                 is NetworkResults.Success -> {
                     hideShimmerEffect()
                     handleDeepLink(res.data!!)
@@ -91,10 +110,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
             message,
             Snackbar.LENGTH_LONG
         )
-
-        snackBar.setAction("Dismiss") {
-            snackBar.dismiss()
-        }
         snackBar.show()
     }
 
@@ -111,7 +126,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     private fun setUpRecyclerView() {
         recipesAdapter.setOnClickListener {
             val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsFragment(it)
-            findNavController().navigate(action)
+            findNavController().navigateWithDefaultAnimation(action)
         }
         binding.shimmerRecyclerView.apply {
             adapter = recipesAdapter

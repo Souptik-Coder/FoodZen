@@ -62,6 +62,11 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
         }
         binding.searchBtn.setOnClickListener {
             canNavigate = true
+            if (viewModel.currentIngredient.value.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "Add at least 1 ingredient", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
             viewModel.getRecipesByIngredient(viewModel.applyQueries())
         }
     }
@@ -117,6 +122,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
                         viewModel.setErrorHandled()
                     }
                 }
+
                 is NetworkResults.Loading -> createProgressDialog("Extracting ingredient...")
                 is NetworkResults.Success -> {
                     viewModel.setCurrentIngredients(res.data!!)
@@ -144,6 +150,7 @@ class SearchByIngredientFragment : Fragment(R.layout.fragment_search_by_ingredie
                     showSnackBar(getString(res.messageResId!!))
                     dismissProgressDialog()
                 }
+
                 is NetworkResults.Loading -> createProgressDialog("Loading Recipes...")
                 is NetworkResults.Success -> {
                     dismissProgressDialog()

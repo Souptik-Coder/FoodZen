@@ -21,7 +21,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object AppModules {
 
     @Provides
     @Singleton
@@ -47,7 +47,7 @@ object NetworkModule {
         Room.databaseBuilder(
             context,
             AppDatabase::class.java, "Recipes Database"
-        ).createFromAsset("database/FoodZen.db").build()
+        ).build()
 
     @Provides
     @Singleton

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.foody.R
 import com.example.foody.databinding.FragmentOverviewBinding
+import com.example.foody.models.Recipe
 
 
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
@@ -22,18 +23,17 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         binding.result = arguments?.getParcelable("resultBundle")
         binding.executePendingBindings()
 
-        binding.summaryTextView.movementMethod = ScrollingMovementMethod()
 
-        binding.idTextView.setOnClickListener {
-            copyToClipBoard((it as TextView).text)
+        binding.idTextView.setOnClickListener { view1 ->
+            copyToClipBoard((view1 as TextView).text.filter { it.isDigit() })
         }
     }
 
     private fun copyToClipBoard(text: CharSequence) {
         val clipboard: ClipboardManager =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("ID", text)
+        val clip = ClipData.newPlainText("Id", text)
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(requireContext(), "ID Copied", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Id copied", Toast.LENGTH_SHORT).show()
     }
 }

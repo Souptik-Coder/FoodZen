@@ -10,298 +10,102 @@
             type="com.example.foody.models.Recipe" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <ImageView
-            android:id="@+id/imageView6"
-            loadImageFromUrl="@{result.image}"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/horizontalGuideLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:background="@drawable/gradient_overlay"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-            app:layout_constraintEnd_toEndOf="@+id/imageView6"
-            app:layout_constraintStart_toStartOf="@+id/imageView6" />
-
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="28dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_time"
-            app:tint="@color/white" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.valueOf(result.readyInMinutes)}"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView7"
-            app:layout_constraintStart_toStartOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7"
-            tools:text="45" />
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-            app:layout_constraintEnd_toStartOf="@+id/imageView7"
-            app:srcCompat="@drawable/ic_heart"
-            app:tint="@color/red" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.valueOf(result.aggregateLikes)}"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView8"
-            app:layout_constraintStart_toStartOf="@+id/imageView8"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8"
-            tools:text="100" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuideLine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.45" />
-
-        <TextView
-            android:id="@+id/textView12"
-            setHtmlParsedText="@{result.title}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="28dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6"
-            tools:text="Title" />
+            android:layout_height="match_parent">
 
 
-        <ImageView
-            android:id="@+id/imageView9"
-            setGreenColor="@{result.veryPopular}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/textView13"
-            app:layout_constraintEnd_toStartOf="@+id/textView13"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView13"
-            app:srcCompat="@drawable/ic_check"
-            app:tint="@color/darkGray" />
+            <TextView
+                android:id="@+id/textView12"
+                setHtmlParsedText="@{result.title}"
+                android:layout_width="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Title" />
 
-        <TextView
-            android:id="@+id/textView13"
-            setGreenColor="@{result.veryPopular}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/popular"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline1"
-            app:layout_constraintStart_toEndOf="@+id/imageView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            <TextView
+                android:id="@+id/id_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{`Recipe ID: `+String.valueOf(result.id)+` (Tap to copy)`}"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                tools:text="Recipe ID: 12345 (Tap to copy)" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.33" />
+            <TextView
+                android:id="@+id/summary_text_view"
+                setHtmlParsedText="@{result.summary}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintVertical_bias="0"
+                android:scrollbars="vertical"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                tools:text="Summary" />
 
-        <ImageView
-            android:id="@+id/imageView10"
-            setGreenColor="@{result.vegetarian}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/textView14"
-            app:layout_constraintEnd_toStartOf="@+id/textView14"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toTopOf="@+id/textView14"
-            app:srcCompat="@drawable/ic_check"
-            app:tint="@color/darkGray" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/id_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/id_text_view"
+                app:srcCompat="@drawable/ic_heart"
+                app:tint="@color/red" />
 
-        <TextView
-            android:id="@+id/textView14"
-            setGreenColor="@{result.vegetarian}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/vegetarian"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toEndOf="@+id/imageView10"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(result.readyInMinutes)+ ` mins`}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@id/imageView4"
+                tools:text="100 mins" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.66" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(result.aggregateLikes)}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/imageView3"
+                tools:text="100" />
 
-        <ImageView
-            android:id="@+id/imageView11"
-            setGreenColor="@{result.glutenFree}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/textView15"
-            app:layout_constraintEnd_toStartOf="@+id/textView15"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/textView14"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/textView15"
-            app:srcCompat="@drawable/ic_check"
-            app:tint="@color/darkGray" />
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/imageView3"
+                app:srcCompat="@drawable/ic_time"
+                app:tint="@color/yellow" />
 
-        <TextView
-            android:id="@+id/textView15"
-            setGreenColor="@{result.glutenFree}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/gluten_free"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-        <ImageView
-            android:id="@+id/imageView12"
-            setGreenColor="@{result.vegan}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/textView17"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="@+id/imageView9"
-            app:layout_constraintTop_toTopOf="@+id/textView17"
-            app:layout_constraintVertical_bias="0.53"
-            app:srcCompat="@drawable/ic_check"
-            app:tint="@color/darkGray" />
-
-        <TextView
-            android:id="@+id/textView17"
-            setGreenColor="@{result.vegan}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/vegan"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView18"
-            app:layout_constraintStart_toEndOf="@+id/imageView12"
-            app:layout_constraintTop_toTopOf="@+id/textView18" />
-
-        <ImageView
-            android:id="@+id/imageView13"
-            setGreenColor="@{result.dairyFree}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/textView18"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/imageView10"
-            app:layout_constraintTop_toTopOf="@+id/textView18"
-            app:srcCompat="@drawable/ic_check"
-            app:tint="@color/darkGray" />
-
-        <TextView
-            android:id="@+id/textView18"
-            setGreenColor="@{result.dairyFree}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/dairy_free"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView14"
-            app:layout_constraintVertical_chainStyle="spread" />
-
-        <ImageView
-            android:id="@+id/imageView14"
-            setGreenColor="@{result.veryHealthy}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/textView19"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/imageView11"
-            app:layout_constraintTop_toTopOf="@+id/textView19"
-            app:srcCompat="@drawable/ic_check"
-            app:tint="@color/darkGray" />
-
-        <TextView
-            android:id="@+id/textView19"
-            setGreenColor="@{result.veryHealthy}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/healthy"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView18"
-            app:layout_constraintStart_toEndOf="@+id/imageView14"
-            app:layout_constraintTop_toTopOf="@+id/textView18" />
-
-        <TextView
-            android:id="@+id/summary_text_view"
-            setHtmlParsedText="@{result.summary}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:lineSpacingExtra="2dp"
-            android:scrollbars="vertical"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18"
-            tools:text="Summary" />
-
-        <TextView
-            android:id="@+id/id_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:text="@{String.valueOf(result.id)}"
-            tools:text="12345"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:drawablePadding="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView12"
-            app:layout_constraintStart_toEndOf="@+id/textView12"
-            app:layout_constraintTop_toTopOf="@+id/textView12"
-            app:drawableEndCompat="@drawable/ic_copy" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

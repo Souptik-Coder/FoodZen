@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.foody.R
 import com.example.foody.data.repositories.DataStoreRepository
 import com.example.foody.models.Recipe
 import com.example.foody.use_cases.RecipeUseCases
@@ -97,7 +98,10 @@ class RecipesViewModel @Inject constructor(
 
     private fun getTopRecipes(queries: Map<String, String>) = viewModelScope.launch {
         topRecipeResponse.value = NetworkResults.Loading()
-        topRecipeResponse.value = recipeUseCases.getRecipes(queries)
+        val res = recipeUseCases.getRecipes(queries)
+
+        topRecipeResponse.value =
+            if (res is NetworkResults.Success && res.data.isNullOrEmpty()) NetworkResults.Error(R.string.no_recipe_found) else res
         /*
             Save new filter parameter and top recipes only if api req is success
         */
@@ -113,8 +117,14 @@ class RecipesViewModel @Inject constructor(
     }
 
     private fun getSavedTopRecipes() = viewModelScope.launch {
-        recipeUseCases.getAllTopRecipes().collectLatest {
-            savedTopRecipes.value = it
+        recipeUseCases.getAllTopRecipes().collectLatest { recipeList ->
+            savedTopRecipes.value = recipeList
+
+            if (recipeList.isEmpty() && topRecipeResponse.value == null) {
+                topRecipeFilterParameters.value?.let {
+                    getTopRecipes(applyQueries(it))
+                }
+            }
         }
     }
 

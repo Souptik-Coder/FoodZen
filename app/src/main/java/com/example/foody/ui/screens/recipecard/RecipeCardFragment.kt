@@ -58,12 +58,18 @@ class RecipeCardFragment : Fragment(R.layout.fragment_recipe_card) {
                     binding.progressBar.visibility = View.INVISIBLE
                     Glide.with(this).load(response.data?.url).into(binding.cardImageView)
                 }
+
                 is NetworkResults.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
+
                 is NetworkResults.Error -> {
                     binding.progressBar.visibility = View.INVISIBLE
-                    Snackbar.make(binding.root, getString(response.messageResId!!), Snackbar.LENGTH_LONG)
+                    Snackbar.make(
+                        binding.root,
+                        getString(response.messageResId!!),
+                        Snackbar.LENGTH_LONG
+                    )
                         .show()
                 }
             }
@@ -72,7 +78,7 @@ class RecipeCardFragment : Fragment(R.layout.fragment_recipe_card) {
 
     private fun shareImage() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val link = "https://smart-liv.com/FoodZen/recipes/${recipeId}"
+            val link = "http://app.FoodZen/recipes/${recipeId}"
             val message = "Take a look at this recipe.More info on $link"
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "image/jpg"
